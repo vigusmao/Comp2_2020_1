@@ -1,0 +1,31 @@
+// declarando um array
+int[] numeros = new int[5];
+numeros[0] = 1000;
+numeros[1] = 2000;
+numeros[4] = 9999;
+
+
+// outro jeito
+int[] outrosNumeros =
+     new int[] {1000, 2000, 0, 0, 9999};
+
+// se quisesse inicializar o array
+// com um valor diferente do default
+for (int i = 0; i < armarios.length; i++) {
+    armarios[i] = true;
+}
+
+// a divisão abaixo produzirá um inteiro, porque os dois operandos
+// são inteiros
+     float duracaoEmSegundos = duracaoEmMillis / 1000;
+// para obter um float, sem arredondamento, precisamos que um dos
+// operandos seja float (ou double)
+     float duracaoEmSegundos = duracaoEmMillis / (float) 1000;
+// ou
+     float duracaoEmSegundos = duracaoEmMillis / 1000f;
+// ou
+     float duracaoEmSegundos = duracaoEmMillis / 1000.0;
+
+
+// calculando potências
+int cubo = (int) Math.pow(base, 3);
