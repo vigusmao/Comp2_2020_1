@@ -1,0 +1,6 @@
+- Vale a pena inicializar todos os parâmetros no construtor
+
+- Acrescente um javadoc a todos os seus métodos públicos
+
+- atributos final precisam ser inicializados no construtor
+  (ou no momento da declaração)
