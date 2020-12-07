@@ -8,6 +8,13 @@ public class Principal {
         }
     }
 
+    // "Overload" (sobrecarga) de método, isto é, métodos com o mesmo nome porém diferentes assinaturas
+    public static void imprimirArray(int[] array) {
+        for (int pos = 0; pos < array.length; pos++) {
+            System.out.printf("[%d]: %d\n", pos, array[pos]);
+        }
+    }
+
     /**
      * Retrona se o número dado é primo.
      * @param numero o número desejado.
@@ -33,30 +40,45 @@ public class Principal {
     }
 
     /**
-     * Retorna a quantidade de números primos existentes no intervalo [1, limite].
-     * Força bruta para cada número do intervalo.
+     * Retorna todos os primos em [1, limite] em ordem crescente.
+     * Força bruto para cada elemento do intervalo.
      *
-     * @param limite o maior número desejado, fechando o intervalo.
-     * @return a quantidade de primos naquele intervalo
+     * @param limite O número que fecha o limite desejado.
+     * @return um array de inteiros contendo os primos (o tamanho do array será exato)
      */
-    public static int contarPrimos(int limite) {
-        int cont = 0;
+    public static int[] obterPrimos(int limite) {
+        int[] primos = new int[16];  // pré-alocando o array que guardará meus primos de forma bem exagerada
+        int contPrimos = 0;
         for (int x = 1; x <= limite; x++) {
             if (ehPrimo(x)) {
-                cont++;
+
+                // verifica overflow e redimensiona (via new array + cópia) se for o caso
+                if (contPrimos == primos.length) {
+                    int[] novoArrayDePrimos = new int[primos.length * 2];
+                    for (int pos = 0; pos < primos.length; pos++) {
+                        novoArrayDePrimos[pos] = primos[pos];
+                    }
+                    primos = novoArrayDePrimos;  // "primos" vai agora apontar para a nova região de memória
+                }
+
+                primos[contPrimos++] = x;
             }
         }
-        return cont;
+        int[] result = new int[contPrimos];
+        for (int pos = 0; pos < contPrimos; pos++) {
+            result[pos] = primos[pos];
+        }
+        return result;
     }
 
     /**
-     * Retorna a quantidade de números primos existentes no intervalo [1, limite].
-     * Internamente utiliza o crivo de Eratóstenes.
+     * Retorna todos os primos em [1, limite] em ordem crescente.
+     * Usa o crivo de Eratóstenes.
      *
-     * @param limite o maior número desejado, fechando o intervalo.
-     * @return a quantidade de primos naquele intervalo
+     * @param limite O número que fecha o limite desejado.
+     * @return um array de inteiros contendo os primos (o tamanho do array será exato)
      */
-    public static int contarPrimosViaCrivo(int limite) {
+    public static int[] obterPrimosViaCrivo(int limite) {
         boolean[] numerosCompostos;  // = null;
         numerosCompostos = new boolean[limite + 1];  // tudo false, a princípio
         numerosCompostos[0] = true;
@@ -90,8 +112,25 @@ public class Principal {
             }
         }
 
-//        imprimirArray(numerosCompostos);
-        return contPrimos;
+        int[] result = new int[contPrimos];
+        int pos = 0;
+        for (int numero = 2; numero <= limite; numero++) {
+            if (!numerosCompostos[numero]) {
+                result[pos++] = numero;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Retorna a quantidade de números primos existentes no intervalo [1, limite].
+     *
+     * @param limite o maior número desejado, fechando o intervalo.
+     * @return a quantidade de primos naquele intervalo
+     */
+    public int contarPrimos(int limite) {
+        int[] primos = obterPrimosViaCrivo(limite);
+        return primos.length;
     }
 
 
@@ -105,18 +144,20 @@ public class Principal {
             }
 
             long inicio = System.currentTimeMillis();
-            int quantPrimos = contarPrimos(x);
+            int[] primos = obterPrimos(x);
             long duracao = System.currentTimeMillis() - inicio;
             System.out.println(String.format(
                     "Quantidade de primos em [1, %d] = %d (duração: %.3f segundos via força bruta)",
-                    x, quantPrimos, duracao / 1000f));
+                    x, primos.length, duracao / 1000f));
+            imprimirArray(primos);
 
             inicio = System.currentTimeMillis();
-            quantPrimos = contarPrimosViaCrivo(x);
+            primos = obterPrimosViaCrivo(x);
             duracao = System.currentTimeMillis() - inicio;
             System.out.println(String.format(
                     "Quantidade de primos em [1, %d] = %d (duração: %.3f segundos via crivo)",
-                    x, quantPrimos, duracao / 1000f));
+                    x, primos.length, duracao / 1000f));
+            imprimirArray(primos);
         }
     }
 }
