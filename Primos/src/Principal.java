@@ -1,19 +1,7 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Principal {
-
-    public static void imprimirArray(boolean[] array) {
-        for (int pos = 0; pos < array.length; pos++) {
-            System.out.printf("[%d]: %s\n", pos, array[pos]);
-        }
-    }
-
-    // "Overload" (sobrecarga) de método, isto é, métodos com o mesmo nome porém diferentes assinaturas
-    public static void imprimirArray(int[] array) {
-        for (int pos = 0; pos < array.length; pos++) {
-            System.out.printf("[%d]: %d\n", pos, array[pos]);
-        }
-    }
 
     /**
      * Retrona se o número dado é primo.
@@ -41,34 +29,19 @@ public class Principal {
 
     /**
      * Retorna todos os primos em [1, limite] em ordem crescente.
-     * Força bruto para cada elemento do intervalo.
+     * Força bruta para cada elemento do intervalo.
      *
      * @param limite O número que fecha o limite desejado.
-     * @return um array de inteiros contendo os primos (o tamanho do array será exato)
+     * @return um ArrayList de inteiros contendo os primos.
      */
-    public static int[] obterPrimos(int limite) {
-        int[] primos = new int[16];  // pré-alocando o array que guardará meus primos de forma bem exagerada
-        int contPrimos = 0;
+    public static ArrayList<Integer> obterPrimos(int limite) {
+        ArrayList<Integer> primos = new ArrayList<>();
         for (int x = 1; x <= limite; x++) {
             if (ehPrimo(x)) {
-
-                // verifica overflow e redimensiona (via new array + cópia) se for o caso
-                if (contPrimos == primos.length) {
-                    int[] novoArrayDePrimos = new int[primos.length * 2];
-                    for (int pos = 0; pos < primos.length; pos++) {
-                        novoArrayDePrimos[pos] = primos[pos];
-                    }
-                    primos = novoArrayDePrimos;  // "primos" vai agora apontar para a nova região de memória
-                }
-
-                primos[contPrimos++] = x;
+                primos.add(x);
             }
         }
-        int[] result = new int[contPrimos];
-        for (int pos = 0; pos < contPrimos; pos++) {
-            result[pos] = primos[pos];
-        }
-        return result;
+        return primos;
     }
 
     /**
@@ -76,9 +49,9 @@ public class Principal {
      * Usa o crivo de Eratóstenes.
      *
      * @param limite O número que fecha o limite desejado.
-     * @return um array de inteiros contendo os primos (o tamanho do array será exato)
+     * @return um ArrayList de inteiros contendo os primos.
      */
-    public static int[] obterPrimosViaCrivo(int limite) {
+    public static ArrayList<Integer> obterPrimosViaCrivo(int limite) {
         boolean[] numerosCompostos;  // = null;
         numerosCompostos = new boolean[limite + 1];  // tudo false, a princípio
         numerosCompostos[0] = true;
@@ -104,19 +77,10 @@ public class Principal {
             passo = novoPasso;
         }
 
-        // conta os primos (estão marcados false no array)
-        int contPrimos = 0;
-        for (int x = 1; x <= limite; x++) {
-            if (!numerosCompostos[x]) {
-                contPrimos++;
-            }
-        }
-
-        int[] result = new int[contPrimos];
-        int pos = 0;
+        ArrayList<Integer> result = new ArrayList<>();
         for (int numero = 2; numero <= limite; numero++) {
             if (!numerosCompostos[numero]) {
-                result[pos++] = numero;
+                result.add(numero);
             }
         }
         return result;
@@ -129,10 +93,9 @@ public class Principal {
      * @return a quantidade de primos naquele intervalo
      */
     public int contarPrimos(int limite) {
-        int[] primos = obterPrimosViaCrivo(limite);
-        return primos.length;
+        ArrayList<Integer> primos = obterPrimos(limite);
+        return primos.size();
     }
-
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -144,20 +107,20 @@ public class Principal {
             }
 
             long inicio = System.currentTimeMillis();
-            int[] primos = obterPrimos(x);
+            ArrayList<Integer> primos = obterPrimos(x);
             long duracao = System.currentTimeMillis() - inicio;
             System.out.println(String.format(
                     "Quantidade de primos em [1, %d] = %d (duração: %.3f segundos via força bruta)",
-                    x, primos.length, duracao / 1000f));
-            imprimirArray(primos);
+                    x, primos.size(), duracao / 1000f));
+            System.out.println(primos);
 
             inicio = System.currentTimeMillis();
             primos = obterPrimosViaCrivo(x);
             duracao = System.currentTimeMillis() - inicio;
             System.out.println(String.format(
                     "Quantidade de primos em [1, %d] = %d (duração: %.3f segundos via crivo)",
-                    x, primos.length, duracao / 1000f));
-            imprimirArray(primos);
+                    x, primos.size(), duracao / 1000f));
+            System.out.println(primos);
         }
     }
 }
