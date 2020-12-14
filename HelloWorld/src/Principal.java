@@ -2,15 +2,17 @@ import java.util.Scanner;
 
 public class Principal {
 
+    /**
+     * Calcula oMDC entre dois inteiros positivos
+     * @param x um dos inteiros
+     * @param y o outro inteiro
+     * @return o MDC de x e y; ou 0, caso um deles não seja positivo
+     */
     public static int calcularMDC(int x, int y) {
 
-        // garante que x >= y
-        if (x < y) {
-            // swap
-            int aux = y;
-            y = x;
-            x = aux;
-        }
+//        if (x <= 0 || y <= 0) {
+//            return 0;  // como combinado
+//        }
 
         int resto = x % y;
 
