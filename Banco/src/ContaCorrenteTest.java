@@ -1,66 +1,102 @@
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class ContaCorrenteTest {
 
-    private final float ERRO_ACEITAVEL_NOS_FLOATS = 0.000001f;
+    private static final float ERRO_ACEITAVEL_NOS_FLOATS = 0.000001f;
+
+    private Pessoa maria;
+    private Pessoa joao;
+
+    private Agencia minhaAgencia;
+
+    private ContaCorrente contaDaMaria;
+    private ContaCorrente contaDoJoao;
+
+    @Before
+    public void setUp() {
+        // cria algumas pessoas
+        maria = new Pessoa("Maria", 12345678);
+        joao = new Pessoa("Joao", 23222);
+
+        // cria uma agencia
+        minhaAgencia = new Agencia();
+
+        // cria algumas contas
+        contaDaMaria = new ContaCorrente(maria, minhaAgencia);
+        contaDoJoao = new ContaCorrente(joao, minhaAgencia);
+
+    }
+
+    @Test
+    public void testarNumerosAutomaticosDeContas() {
+        assertEquals(1, contaDaMaria.getNumeroDaConta());
+        assertEquals(2, contaDoJoao.getNumeroDaConta());
+    }
 
     @Test
     public void testarDeposito() {
-        Pessoa maria = new Pessoa("Maria", 12345678);
-        Agencia minhaAgencia = new Agencia();
-        ContaCorrente conta = new ContaCorrente(1, maria, minhaAgencia);
+        checarSaldoInicial(contaDaMaria);
 
-        // sanity check: a conta já começa com saldo 10 (regra de negócio)
-        assertEquals(10f, conta.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
+        contaDaMaria.depositar(1000);
+        assertFloatEquals(1010f, contaDaMaria.getSaldoEmReais());
 
-        conta.depositar(1000);
-        assertEquals(1010f, conta.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
+        contaDaMaria.depositar(500);
+        assertFloatEquals(1510f, contaDaMaria.getSaldoEmReais());
 
-        conta.depositar(500);
-        assertEquals(1510f, conta.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
-
-        conta.depositar(-100);
-        assertEquals(1510f, conta.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);  // nada mudou,porque o depósito não foi feito
+        contaDaMaria.depositar(-100);
+        assertFloatEquals(1510f, contaDaMaria.getSaldoEmReais());  // nada mudou,porque o depósito não foi feito
    }
 
     @Test
+    public void testarSaque() {
+        checarSaldoInicial(contaDaMaria);
+        contaDaMaria.sacar(7);
+        assertEquals(3f, contaDaMaria.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
+    }
+
+    @Test
+    public void testarSaqueSemFundos() {
+        checarSaldoInicial(contaDaMaria);
+        contaDaMaria.sacar(17);
+        assertFloatEquals(10f, contaDaMaria.getSaldoEmReais());
+    }
+
+    @Test
     public void testarTransferecia() {
-        Pessoa maria = new Pessoa("Maria", 12345678);
-        Pessoa joao = new Pessoa("Joao", 23222);
-        Agencia minhaAgencia = new Agencia();
-
-        ContaCorrente contaMaria = new ContaCorrente(1, maria, minhaAgencia);
-        ContaCorrente contaJoao = new ContaCorrente(2, joao, minhaAgencia);
-
         // sanity check: as contas já começam com saldo 10 (regra de negócio)
-        assertEquals(10f, contaMaria.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
-        assertEquals(10f, contaJoao.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
+        checarSaldoInicial(contaDaMaria);
+        checarSaldoInicial(contaDoJoao);
 
-        contaMaria.transferir(7, contaJoao);
+        contaDaMaria.transferir(7, contaDoJoao);
 
-        assertEquals(3f, contaMaria.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
-        assertEquals(17f, contaJoao.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
+        assertFloatEquals(3f, contaDaMaria.getSaldoEmReais());
+        assertFloatEquals(17f, contaDoJoao.getSaldoEmReais());
     }
 
     @Test
     public void testarTransfereciaSemFundosNaContaDeOrigem() {
-        Pessoa maria = new Pessoa("Maria", 12345678);
-        Pessoa joao = new Pessoa("Joao", 23222);
-        Agencia minhaAgencia = new Agencia();
-
-        ContaCorrente contaMaria = new ContaCorrente(1, maria, minhaAgencia);
-        ContaCorrente contaJoao = new ContaCorrente(2, joao, minhaAgencia);
-
         // sanity check: as contas já começam com saldo 10 (regra de negócio)
-        assertEquals(10f, contaMaria.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
-        assertEquals(10f, contaJoao.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
+        assertFloatEquals(10f, contaDaMaria.getSaldoEmReais());
+        assertFloatEquals(10f, contaDoJoao.getSaldoEmReais());
 
-        contaMaria.transferir(200, contaJoao);
+        contaDaMaria.transferir(200, contaDoJoao);
 
-        assertEquals(10f, contaMaria.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
-        assertEquals(10f, contaJoao.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
+        assertFloatEquals(10f, contaDaMaria.getSaldoEmReais());
+        assertFloatEquals(10f, contaDoJoao.getSaldoEmReais());
         // a transferência NÃO DEVE SER REALIZADA, porque não fundos na conta de origem (Maria).
+    }
+
+    private void checarSaldoInicial(ContaCorrente conta) {
+        // sanity check: as contas já começam com saldo 10 (regra de negócio)
+        assertFloatEquals(
+                ContaCorrente.SALDO_INICIAL_DE_NOVAS_CONTAS,
+                conta.getSaldoEmReais());
+    }
+
+    private static void assertFloatEquals(float expected, float actual) {
+        assertEquals(expected, actual, ERRO_ACEITAVEL_NOS_FLOATS);
     }
 }
