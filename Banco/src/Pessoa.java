@@ -2,7 +2,7 @@ import java.util.Date;
 
 public class Pessoa {
 
-    protected String nome;  // protecgted é "package private" + subclasses
+    protected String nome;  // protected é "package private" + subclasses
 
     protected final long cpf;  // final indica que o campo JAMAIS poderá ser atualizado
 

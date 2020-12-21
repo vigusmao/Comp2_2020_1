@@ -33,6 +33,11 @@ public class Funcionario extends Pessoa {
 
     @Override
     public String toString() {
+
+//        return String.format("%d --- %s (CPF: %d)",
+//                matricula, nome, cpf);
+
+        // assim é mais elegante, acrescentando campos ao toString() da superclasse
         return String.format("%d --- %s",
                 matricula, super.toString());
     }
