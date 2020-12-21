@@ -71,8 +71,6 @@ public class ContaCorrente {
                 valor, new Date()));
     }
 
-
-
     /**
      * Transfere um valor desta conta para a conta destino informada, se houver saldo suficiente
      * nesta conta.

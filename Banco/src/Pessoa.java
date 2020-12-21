@@ -2,18 +2,19 @@ import java.util.Date;
 
 public class Pessoa {
 
-    private String nome;
+    protected String nome;  // protecgted é "package private" + subclasses
 
-    private final long cpf;  // final indica que o campo JAMAIS poderá ser atualizado
+    protected final long cpf;  // final indica que o campo JAMAIS poderá ser atualizado
 
     private Date dataDeNascimento;
 
     private String endereco;
 
+    // overload do construtor
     public Pessoa(String nomeDaPessoa, long cpfDaPessoa) {
-        nome = nomeDaPessoa;
-        cpf = cpfDaPessoa;
-        endereco = "Endereço desconhecido";
+        this.nome = nomeDaPessoa;
+        this.cpf = cpfDaPessoa;
+        this.endereco = "Endereço desconhecido";
     }
 
     public void setEndereco(String endereco) {
@@ -23,7 +24,18 @@ public class Pessoa {
         this.endereco = endereco;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
     public long getCpf() {
         return cpf;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s (CPF: %d)",
+                nome,
+                cpf);
     }
 }
