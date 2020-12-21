@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Principal {
 
     /**
-     * Calcula oMDC entre dois inteiros positivos
+     * Calcula o MDC entre dois inteiros positivos
      * @param x um dos inteiros
      * @param y o outro inteiro
      * @return o MDC de x e y; ou 0, caso um deles não seja positivo
