@@ -2,57 +2,103 @@ import java.util.Scanner;
 
 public class Principal {
 
+    private static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
 
-        Pessoa fulano = new Pessoa("Fulano de Tal", 12345);
+        Banco meuBanco = new Banco();
 
-        System.out.println("cpf = " + fulano.getCpf());
+        boolean terminar = false;
 
-        System.out.println(fulano.toString());
+        while (!terminar) {
 
+            apresentarMenu();
+            String opcao = lerOpcao();
 
-        Funcionario paiva;
-        paiva = new Funcionario("Paiva", 234567, 1111);
+            switch (opcao.toUpperCase()) {
+                case "D":
+                    System.out.print("Número da conta: ");
+                    long numeroDaConta = Long.parseLong(scanner.nextLine());
+                    System.out.print("Valor desejado: ");
+                    float valor = Float.parseFloat(scanner.nextLine());
 
-        Pessoa beltrano;
-        beltrano = criarFuncionario();
+                    ContaCorrente contaCorrente = meuBanco.localizarConta(numeroDaConta);
+                    if (contaCorrente != null) {
+                        contaCorrente.depositar(valor);
+                        System.out.println(contaCorrente.getUltimoItemHistorico());
+                    } else {
+                        System.out.println("Conta inexistente!");
+                    }
+                    break;  // switch
 
-        beltrano.setEndereco("Rua Tal, numero 1");
+                case "S":
 
-        //beltrano.receberAumento(10);   // essa linha não compilaria!!!!
+                case "T":
 
-        paiva.receberAumento(10);
+                case "C":
+                    System.out.print("Número da conta: ");
+                    long numero = Long.parseLong(scanner.nextLine());
+                    ContaCorrente conta = meuBanco.localizarConta(numero);
+                    if (conta != null) {
+                        System.out.println(String.format("Saldo = %.2f",
+                                conta.getSaldoEmReais()));
+                    } else {
+                        System.out.println("Conta inexistente!");
+                    }
+                    break;  // switch
 
-        System.out.println(beltrano.toString());
+                case "P":
+                    System.out.print("Nome: ");
+                    String nome = scanner.nextLine();
+                    System.out.print("CPF: ");
+                    long cpf = Long.parseLong(scanner.nextLine());
 
+                    meuBanco.cadastrarCorrentista(nome, cpf);
+                    System.out.println("Cadastro realizado!");
 
-    }
+                    break;  // switch
 
-    private static Pessoa criarFuncionario() {
-        Scanner sc = new Scanner(System.in);
+                case "N":
+                    System.out.print("CPF do correntista: ");
+                    cpf = Long.parseLong(scanner.nextLine());
+                    Pessoa correntista = meuBanco.localizarCorrentista(cpf);
+                    if (correntista != null) {
+                        ContaCorrente novaConta = meuBanco.cadastrarConta(correntista);
+                        System.out.println("Conta criada com o número " + novaConta.getNumeroDaConta());
+                    } else {
+                        System.out.println("Correntista não existe!");
+                    }
+                    break;  // switch
 
-        System.out.println("Nome: ");
-        String nome = sc.nextLine();
+                case "X":
+                    terminar = true;
+                    break;
 
-        System.out.println("CPF: ");
-        long cpf = sc.nextLong();
-
-        // consome o "\n" que o nextLong não irá consumir
-        sc.nextLine();
-
-        System.out.println("É funcionário (S|N)? ");
-        String resposta = sc.nextLine();
-        boolean ehFuncionario = resposta.equals("S") ||
-                resposta.equals("s");
-
-        if (ehFuncionario) {
-            System.out.println("Matrícula: ");
-            int matricula = sc.nextInt();
-            return new Funcionario(nome, cpf, matricula);
+                default:
+                    System.out.println("Opção inválida");
+            }
         }
 
-        //return new Object();    // não compilaria!!!!!
-
-        return new Pessoa(nome, cpf);
+        System.out.println("Tchau!");
     }
+
+    private static void apresentarMenu() {
+        System.out.println(
+                "\n------\n" +
+                "(D)epositar\n" +
+                "(S)acar\n" +
+                "(T)ransferir\n" +
+                "(C)onsultar saldo\n" +
+                "Cadastrar (P)essoa como correntista\n" +
+                "Criar (N)ova conta\n" +
+                "(X) para sair\n");
+    }
+
+    private static String lerOpcao() {
+        System.out.print("\nAção desejada: ");
+        return scanner.nextLine();
+    }
+
+
+
 }

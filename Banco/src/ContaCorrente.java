@@ -20,13 +20,15 @@ public class ContaCorrente {
 
     private ArrayList<String> historicoDeOperacoes;
 
+    static int numeroDeContasCriadas = 0;
+
     public ContaCorrente(Pessoa correntista, Agencia agencia) {
         this.historicoDeOperacoes = new ArrayList<>();
         this.dataDeCriacao = new Date();  // data corrente
         this.saldoEmReais = SALDO_INICIAL_DE_NOVAS_CONTAS;
 
         // ToDO FIX ME!!!!
-        this.numeroDaConta = 0;  //.................?????
+        this.numeroDaConta = ++numeroDeContasCriadas;
 
         this.correntista = correntista;
         this.agencia = agencia;
@@ -49,8 +51,9 @@ public class ContaCorrente {
         // altera o saldo
         saldoEmReais += valor;
 
-        historicoDeOperacoes.add("Deposito em dinheiro: R$" + valor +
-                " na data " + new Date());
+        historicoDeOperacoes.add(String.format(
+                "Deposito em dinheiro: R$%.2f na data %s",
+                valor, new Date()));
     }
 
     public void sacar(float valor) {
@@ -99,5 +102,11 @@ public class ContaCorrente {
         contaDestino.historicoDeOperacoes.add(String.format(
                 "Transferência recebida da conta %d: R$%.2f na data %s",
                 this.numeroDaConta, valor, new Date()));
+    }
+
+    public String getUltimoItemHistorico() {
+        return historicoDeOperacoes.size() > 0 ?
+                historicoDeOperacoes.get(historicoDeOperacoes.size() - 1) :
+                null;
     }
 }

@@ -24,16 +24,24 @@ public class ContaCorrenteTest {
         // cria uma agencia
         minhaAgencia = new Agencia();
 
+        ContaCorrente.numeroDeContasCriadas = 0;  // reseta o static da classe
+
         // cria algumas contas
         contaDaMaria = new ContaCorrente(maria, minhaAgencia);
         contaDoJoao = new ContaCorrente(joao, minhaAgencia);
-
     }
 
     @Test
     public void testarNumerosAutomaticosDeContas() {
         assertEquals(1, contaDaMaria.getNumeroDaConta());
         assertEquals(2, contaDoJoao.getNumeroDaConta());
+//        ContaCorrente novaConta = new ContaCorrente(maria, minhaAgencia);
+//        long numeroDaConta = novaConta.getNumeroDaConta();
+//
+//        assertEquals(numeroDaConta + 1,
+//                (new ContaCorrente(joao, minhaAgencia).getNumeroDaConta()));
+//        assertEquals(numeroDaConta + 2,
+//                (new ContaCorrente(joao, minhaAgencia).getNumeroDaConta());
     }
 
     @Test

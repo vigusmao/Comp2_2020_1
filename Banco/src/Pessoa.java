@@ -17,6 +17,10 @@ public class Pessoa {
         this.endereco = "Endereço desconhecido";
     }
 
+    public String getEndereco() {
+        return endereco;
+    }
+
     public void setEndereco(String endereco) {
         if (endereco.length() > 40) {  // tamanho máximo permitido para endereços
             return;  // ToDo lançar exceção!
@@ -26,6 +30,10 @@ public class Pessoa {
 
     public String getNome() {
         return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public long getCpf() {
