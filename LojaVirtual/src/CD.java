@@ -1,4 +1,4 @@
-public class CD extends Produto {
+public class CD extends ArtigoCultural {
 
     private String nomeDoDisco;
 

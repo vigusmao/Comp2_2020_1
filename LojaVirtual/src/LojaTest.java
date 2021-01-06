@@ -9,6 +9,7 @@ public class LojaTest {
     Livro livro1;
     Livro livro2;
     CD cd1;
+    Bicicleta bicicleta1;
     Usuario comprador;
     Transportadora gatoPreto;
 
@@ -28,9 +29,13 @@ public class LojaTest {
         cd1 = new CD(121223, "Ride The Lightning", "Metallica", 1985);
         cd1.setPrecoEmReais(18.50f);
 
-        loja.incluirProduto(livro1);
-        loja.incluirProduto(livro2);
-        loja.incluirProduto(cd1);
+        bicicleta1 = new Bicicleta(9999, 700, "Pinarello");
+        bicicleta1.setPrecoEmReais(580);
+
+        loja.incluirItem(livro1);
+        loja.incluirItem(livro2);
+        loja.incluirItem(cd1);
+        loja.incluirItem(bicicleta1);
 
         comprador = new Usuario(111111, "Maria");
         comprador.setEndereco("Rua Tal, Numero Tal");
@@ -43,6 +48,10 @@ public class LojaTest {
         System.out.println(recibo);
 
         recibo = loja.receberPedido(cd1, 1, comprador);
+        assertNotNull(recibo);
+        System.out.println(recibo);
+
+        recibo = loja.receberPedido(bicicleta1, 3, comprador);
         assertNotNull(recibo);
         System.out.println(recibo);
     }

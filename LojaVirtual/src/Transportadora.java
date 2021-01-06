@@ -4,10 +4,10 @@ public class Transportadora {
 
     private String nome;
 
-    public void transportar(ArrayList<Produto> produtos, String endereco) {
+    public void transportar(ArrayList<Transportavel> itens, String endereco) {
         System.out.println(
-                String.format("Transportando %d produtos para o endereço: %s",
-                        produtos.size(), endereco));
+                String.format("Transportando %d itens para o endereço: %s",
+                        itens.size(), endereco));
         // ToDo chamar de fato o serviço da transportadora física, emitindo OS
     }
 }

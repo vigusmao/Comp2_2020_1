@@ -1,4 +1,4 @@
-public class Livro extends Produto {
+public class Livro extends ArtigoCultural {
 
     private final int codigoISBN;
 

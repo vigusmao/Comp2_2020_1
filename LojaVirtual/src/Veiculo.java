@@ -5,6 +5,10 @@ public class Veiculo {
     private int cargaMaximaEmKg;
 
     public void mover(float velocidadeEmKmh) {
-        // Too IMPLEMENT ME!...
+        // ToDo IMPLEMENT ME!
+    }
+
+    public void parar() {
+        // ToDo IMPLEMENT ME!
     }
 }

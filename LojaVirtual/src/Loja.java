@@ -7,7 +7,7 @@ public class Loja {
 
     private String nomeDaLoja;
 
-    private ArrayList<Produto> catalogo;
+    private ArrayList<Vendavel> catalogo;
 
     private Transportadora frete;
 
@@ -20,10 +20,10 @@ public class Loja {
         frete = transportadora;
     }
 
-    public String receberPedido(Produto produto, int quantidade, Usuario usuario) {
+    public String receberPedido(ArtigoCultural item, int quantidade, Usuario usuario) {
 
         // verifica se existe no catálogo da loja
-        if (buscarProduto(produto.getId()) == null) {
+        if (buscarItem(item.getId()) == null) {
             // ToDo lançar uma exceção específica
             return null;
         }
@@ -34,64 +34,64 @@ public class Loja {
             return null;
         }
 
-        float precoTotal = quantidade * produto.getPrecoEmReais();
+        float precoTotal = quantidade * item.getPrecoEmReais();
 
         if (!processarPagamento(precoTotal)) {
             // ToDo lançar uma exceção específica
             return null;
         }
 
-        // cria um array com todos os livros que precisarão ser entregues
-        // (possivelmente várias unidades do mesmo produto)
-        ArrayList<Produto> pedido = new ArrayList<>();
+        // cria um array com todos os itens que precisarão ser entregues
+        // (possivelmente várias unidades do mesmo item)
+        ArrayList<Transportavel> pedido = new ArrayList<>();
         for (int i = 0; i < quantidade; i++) {
-            pedido.add(produto);
+            pedido.add(item);
         }
 
         frete.transportar(pedido, usuario.getEndereco());
 
         String recibo = String.format("Recibo no valor de R$%.2f referente à " +
-                "compra de %d unidades do produto: %s",
-                precoTotal, quantidade, produto);
+                "compra de %d unidades do item: %s",
+                precoTotal, quantidade, item);
 
         return recibo;
     }
 
-    public void incluirProduto(Produto produto) {
-        if (buscarProduto(produto.getId()) != null) {
+    public void incluirItem(Vendavel vendavel) {
+        if (buscarItem(vendavel.getId()) != null) {
             // produto já existe no catálogo -- nada a fazer
             return;
         }
-        catalogo.add(produto);
+        catalogo.add(vendavel);
     }
 
     /**
-     * Busca um produto no catálogo da loja a partir de sua descrição.
+     * Busca um ítem no catálogo da loja a partir de sua descrição.
      *
-     * @param descricao a descrição do produto desejado (ou parte dela)
-     * @return o primeiro Produto que case com a descrição fornecida, caso encontre;
+     * @param descricao a descrição do ítem desejado (ou parte dela)
+     * @return o primeiro Vendavel que case com a descrição fornecida, caso encontre;
      *         ou null, caso contrário
      */
-    public Produto buscarProduto(String descricao) {
-        for (Produto produto : catalogo) {
-            if (produto.getDescricao().contains(descricao)) {
-                return produto;
+    public Vendavel buscarItem(String descricao) {
+        for (Vendavel item : catalogo) {
+            if (item.getDescricao().contains(descricao)) {
+                return item;
             }
         }
         return null;
     }
 
     /**
-     * Busca um produto no catálogo da loja a partir de seu código.
+     * Busca um ítem no catálogo da loja a partir de seu código.
      *
-     * @param id o código de identificação do produto desejado
-     * @return o Produto cujo código seja igual ao código fornecido, caso encontre;
+     * @param id o código de identificação do ítem desejado
+     * @return o Vendavel cujo código seja igual ao código fornecido, caso encontre;
      *         ou null, caso contrário
      */
-    public Produto buscarProduto(long id) {
-        for (Produto produto : catalogo) {
-            if (produto.getId() == id) {
-                return produto;
+    public Vendavel buscarItem(long id) {
+        for (Vendavel item : catalogo) {
+            if (item.getId() == id) {
+                return item;
             }
         }
         return null;

@@ -1,4 +1,4 @@
-public class Produto {
+public class ArtigoCultural implements Vendavel, Transportavel {
 
     private final long id;  // código único de identificação do produto
 
@@ -10,7 +10,7 @@ public class Produto {
 
     private int pesoEmGramas;
 
-    public Produto(long id, String descricao) {
+    public ArtigoCultural(long id, String descricao) {
         this.id = id;
         this.descricao = descricao;
     }
@@ -49,6 +49,10 @@ public class Produto {
 
     public void setPesoEmGramas(int pesoEmGramas) {
         this.pesoEmGramas = pesoEmGramas;
+    }
+
+    public int getVolumeEmCm3() {
+        return 0;  // ToDo IMPLEMENT ME!
     }
 
     @Override
