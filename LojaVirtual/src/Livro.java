@@ -1,4 +1,4 @@
-public class Livro {
+public class Livro extends Produto {
 
     private final int codigoISBN;
 
@@ -12,14 +12,13 @@ public class Livro {
 
     private int numeroDePaginas;
 
-    private float precoEmReais;
-
-    private String urlDaImagem;
-
-    private int pesoEmGramas;
-
     public Livro(int codigoISBN,
                  String titulo, String autor, String editora, int anoPublicacao) {
+
+        super(codigoISBN,
+                String.format("Livro: %s (%s, %d)",
+                titulo, autor, anoPublicacao));
+
         this.codigoISBN = codigoISBN;
         this.titulo = titulo;
         this.autor = autor;
@@ -69,35 +68,5 @@ public class Livro {
 
     public void setNumeroDePaginas(int numeroDePaginas) {
         this.numeroDePaginas = numeroDePaginas;
-    }
-
-    public float getPrecoEmReais() {
-        return precoEmReais;
-    }
-
-    public void setPrecoEmReais(float precoEmReais) {
-        this.precoEmReais = precoEmReais;
-    }
-
-    public String getUrlDaImagem() {
-        return urlDaImagem;
-    }
-
-    public void setUrlDaImagem(String urlDaImagem) {
-        this.urlDaImagem = urlDaImagem;
-    }
-
-    public int getPesoEmGramas() {
-        return pesoEmGramas;
-    }
-
-    public void setPesoEmGramas(int pesoEmGramas) {
-        this.pesoEmGramas = pesoEmGramas;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s (%s, %d)",
-                titulo, autor, anoPublicacao);
     }
 }

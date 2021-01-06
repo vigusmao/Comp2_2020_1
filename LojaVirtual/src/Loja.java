@@ -7,7 +7,7 @@ public class Loja {
 
     private String nomeDaLoja;
 
-    private ArrayList<Livro> catalogo;
+    private ArrayList<Produto> catalogo;
 
     private Transportadora frete;
 
@@ -20,10 +20,10 @@ public class Loja {
         frete = transportadora;
     }
 
-    public String receberPedido(Livro livro, int quantidade, Usuario usuario) {
+    public String receberPedido(Produto produto, int quantidade, Usuario usuario) {
 
         // verifica se existe no catálogo da loja
-        if (buscarLivro(livro.getTitulo(), livro.getAutor()) == null) {
+        if (buscarProduto(produto.getId()) == null) {
             // ToDo lançar uma exceção específica
             return null;
         }
@@ -34,7 +34,7 @@ public class Loja {
             return null;
         }
 
-        float precoTotal = quantidade * livro.getPrecoEmReais();
+        float precoTotal = quantidade * produto.getPrecoEmReais();
 
         if (!processarPagamento(precoTotal)) {
             // ToDo lançar uma exceção específica
@@ -42,41 +42,56 @@ public class Loja {
         }
 
         // cria um array com todos os livros que precisarão ser entregues
-        // (possivelmente várias unidades do mesmo livro)
-        ArrayList<Livro> pedido = new ArrayList<>();
+        // (possivelmente várias unidades do mesmo produto)
+        ArrayList<Produto> pedido = new ArrayList<>();
         for (int i = 0; i < quantidade; i++) {
-            pedido.add(livro);
+            pedido.add(produto);
         }
 
         frete.transportar(pedido, usuario.getEndereco());
 
         String recibo = String.format("Recibo no valor de R$%.2f referente à " +
-                "compra de %d unidades do livro: %s",
-                precoTotal, quantidade, livro);
+                "compra de %d unidades do produto: %s",
+                precoTotal, quantidade, produto);
 
         return recibo;
     }
 
-    public void incluirLivro(Livro livro) {
-        if (buscarLivro(livro.getTitulo(), livro.getAutor()) != null) {
-            // livro já existe no catálogo -- nada a fazer
+    public void incluirProduto(Produto produto) {
+        if (buscarProduto(produto.getId()) != null) {
+            // produto já existe no catálogo -- nada a fazer
             return;
         }
-        catalogo.add(livro);
+        catalogo.add(produto);
     }
 
     /**
-     * Busca um livro no catálogo da loja a partir do título e do autor informados.
+     * Busca um produto no catálogo da loja a partir de sua descrição.
      *
-     * @param titulo o título
-     * @param autor o autor
-     * @return um Livro, caso encontre; ou null, caso contrário
+     * @param descricao a descrição do produto desejado (ou parte dela)
+     * @return o primeiro Produto que case com a descrição fornecida, caso encontre;
+     *         ou null, caso contrário
      */
-    public Livro buscarLivro(String titulo, String autor) {
-        for (Livro livro : catalogo) {
-            if (livro.getTitulo().equals(titulo) &&
-                    livro.getAutor().equals(autor)) {
-                return livro;
+    public Produto buscarProduto(String descricao) {
+        for (Produto produto : catalogo) {
+            if (produto.getDescricao().contains(descricao)) {
+                return produto;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Busca um produto no catálogo da loja a partir de seu código.
+     *
+     * @param id o código de identificação do produto desejado
+     * @return o Produto cujo código seja igual ao código fornecido, caso encontre;
+     *         ou null, caso contrário
+     */
+    public Produto buscarProduto(long id) {
+        for (Produto produto : catalogo) {
+            if (produto.getId() == id) {
+                return produto;
             }
         }
         return null;

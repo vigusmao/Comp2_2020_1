@@ -8,6 +8,7 @@ public class LojaTest {
     Loja loja;
     Livro livro1;
     Livro livro2;
+    CD cd1;
     Usuario comprador;
     Transportadora gatoPreto;
 
@@ -24,20 +25,30 @@ public class LojaTest {
         livro2 = new Livro(12446, "Dom Quixote", "Miguel de Cervantes", null, 1605);
         livro2.setPrecoEmReais(42.30f);
 
-        loja.incluirLivro(livro1);
-        loja.incluirLivro(livro2);
+        cd1 = new CD(121223, "Ride The Lightning", "Metallica", 1985);
+        cd1.setPrecoEmReais(18.50f);
+
+        loja.incluirProduto(livro1);
+        loja.incluirProduto(livro2);
+        loja.incluirProduto(cd1);
+
         comprador = new Usuario(111111, "Maria");
         comprador.setEndereco("Rua Tal, Numero Tal");
     }
 
     @Test
-    public void testarVendaParaLivroExistente() {
+    public void testarVendaParaProdutoExistente() {
         String recibo = loja.receberPedido(livro2, 5, comprador);
         assertNotNull(recibo);
+        System.out.println(recibo);
+
+        recibo = loja.receberPedido(cd1, 1, comprador);
+        assertNotNull(recibo);
+        System.out.println(recibo);
     }
 
     @Test
-    public void testarVendaParaLivroNaoExistente() {
+    public void testarVendaParaProdutoNaoExistente() {
         Livro livroNaoExistente = new Livro(1010101, "Blah", "Qualquer coisa", null, 2000);
         String recibo = loja.receberPedido(livroNaoExistente, 5, comprador);
         assertNull(recibo);
