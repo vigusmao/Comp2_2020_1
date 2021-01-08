@@ -102,19 +102,6 @@ public class AlbumTest {
     }
 
     @Test
-    public void getFigurinhaTest() {
-        popularAlbum(new int[] {1, 2, 3});
-
-        Colecionavel f = this.album.getItem(1);
-        assertNotNull(f);
-        assertEquals(1, f.getPosicao());
-
-        assertNull(this.album.getItem(5));
-        assertNull(this.album.getItem(-500));
-        assertNull(this.album.getItem(TAMANHO_DO_ALBUM + 1));
-    }
-
-    @Test
     public void getContFigurinhasTest() {
         popularAlbum(new int[] {1, 2, 3});
         assertEquals(FIGURINHAS_POR_PACOTE,
