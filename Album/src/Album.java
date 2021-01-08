@@ -1,5 +1,7 @@
 public class Album {
 
+    public static final int PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR = 90;  // 90%
+
     private int quantFigurinhasPorPacotinho;
 
     public Album(int tamanhoDoAlbum, int quantFigurinhasPorPacotinho) {
@@ -48,5 +50,10 @@ public class Album {
     public boolean possuiFigurinhaRepetida(int posicao) {
         // ToDo IMPLEMENT ME!!!
         return false;
+    }
+
+    public int getQuantFigurinhasFaltantes() {
+        // ToDo IMPLEMENT ME!!!
+        return 0;
     }
 }

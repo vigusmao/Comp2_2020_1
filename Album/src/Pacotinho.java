@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Pacotinho extends ArrayList<Figurinha> {
 
-    Album album;
+    private Album album;
 
     // ToDo atributo que seja uma estrutura para guardar as figurinhas deste pacotinho
 
@@ -37,5 +37,9 @@ public class Pacotinho extends ArrayList<Figurinha> {
             Figurinha figurinha = new Figurinha(posicao);
             add(figurinha);
         }
+    }
+
+    public Album getAlbum() {
+        return this.album;
     }
 }
