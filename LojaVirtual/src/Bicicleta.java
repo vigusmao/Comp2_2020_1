@@ -44,4 +44,16 @@ public class Bicicleta extends Veiculo implements Vendavel {
     public String toString() {
         return getDescricao();
     }
+
+    @Override
+    public int getPesoEmGramas() {
+        // ToDo
+        return 0;
+    }
+
+    @Override
+    public int getVolumeEmCm3() {
+        // ToDo
+        return 0;
+    }
 }

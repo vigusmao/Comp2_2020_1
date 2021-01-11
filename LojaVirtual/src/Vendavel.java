@@ -1,4 +1,4 @@
-public interface Vendavel {
+public interface Vendavel extends Transportavel {
 
     /**
      * @return um identificador único para este Vendável.

@@ -20,7 +20,7 @@ public class Loja {
         frete = transportadora;
     }
 
-    public String receberPedido(ArtigoCultural item, int quantidade, Usuario usuario) {
+    public String receberPedido(Vendavel item, int quantidade, Usuario usuario) {
 
         // verifica se existe no catálogo da loja
         if (buscarItem(item.getId()) == null) {

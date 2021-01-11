@@ -1,4 +1,4 @@
-public class ArtigoCultural implements Vendavel, Transportavel {
+public class ArtigoCultural implements Vendavel {
 
     private final long id;  // código único de identificação do produto
 
