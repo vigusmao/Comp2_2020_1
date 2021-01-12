@@ -12,13 +12,19 @@ public class LojaTest {
     Bicicleta bicicleta1;
     Usuario comprador;
     Transportadora gatoPreto;
+    ImpressoraJatoDeTinta impressoraJatoDeTinta1;
+    Grafica grafica1;
 
     @Before
     public void setUp() {
         gatoPreto = new Transportadora();
+        impressoraJatoDeTinta1 = new ImpressoraJatoDeTinta("HP", 2018);
+        grafica1 = new Grafica();
 
-        loja = new Loja(gatoPreto);  // informamos à loja qual a transportadora
-                                     // que ela vai usar (agregação)
+        loja = new Loja(
+                gatoPreto,  // informamos à loja qual a transportadora que ela vai usar (agregação)
+                grafica1);  // ...e o serviço de impressão que ela vai usar (agregação tb)
+
 
         livro1 = new Livro(12345, "Da Terra à Lua", "Julio Verne", null, 1865);
         livro1.setPrecoEmReais(25);

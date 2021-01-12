@@ -5,15 +5,25 @@ import java.util.ArrayList;
  */
 public class Loja {
 
+    private static final int NUMERO_DE_PEDIDOS_POR_RELATORIO = 1;
+
     private String nomeDaLoja;
 
     private ArrayList<Vendavel> catalogo;
 
     private Transportadora frete;
 
-    public Loja(Transportadora transportadora) {
-        catalogo = new ArrayList<>();  // COMPOSIÇÃO
-        setFrete(transportadora);      // AGREGAÇÃO
+    private Impressora impressora;
+
+    private long quantPedidosRecebidos;
+
+    public Loja(Transportadora transportadora,
+                Impressora impressora) {
+
+        catalogo = new ArrayList<>();              // COMPOSIÇÃO
+        setFrete(transportadora);                  // AGREGAÇÃO
+        this.impressora = impressora;  // AGREGAÇÃO
+        this.quantPedidosRecebidos = 0;
     }
 
     public void setFrete(Transportadora transportadora) {
@@ -41,20 +51,30 @@ public class Loja {
             return null;
         }
 
-        // cria um array com todos os itens que precisarão ser entregues
-        // (possivelmente várias unidades do mesmo item)
-        ArrayList<Transportavel> pedido = new ArrayList<>();
-        for (int i = 0; i < quantidade; i++) {
-            pedido.add(item);
+        if (item instanceof Transportavel) {  // é transportável?
+            // cria um array com todos os itens que precisarão ser entregues
+            // (possivelmente várias unidades do mesmo item)
+            ArrayList<Transportavel> pedido = new ArrayList<>();
+            for (int i = 0; i < quantidade; i++) {
+                pedido.add((Transportavel) item);
+            }
+            frete.transportar(pedido, usuario.getEndereco());
         }
 
-        frete.transportar(pedido, usuario.getEndereco());
+        if (++this.quantPedidosRecebidos % NUMERO_DE_PEDIDOS_POR_RELATORIO == 0) {
+            imprimirRelatorioUltimasVendas();
+        }
 
         String recibo = String.format("Recibo no valor de R$%.2f referente à " +
                 "compra de %d unidades do item: %s",
                 precoTotal, quantidade, item);
 
         return recibo;
+    }
+
+    private void imprimirRelatorioUltimasVendas() {
+        String relatorio = ".................To Do...............";
+        this.impressora.imprimir(relatorio);
     }
 
     public void incluirItem(Vendavel vendavel) {
