@@ -1,13 +1,15 @@
 public class Figurinha {
 
-    public Figurinha(int posicao) {
+    private int posicao;
 
+    public Figurinha(int posicao) {
+        this.posicao = posicao;
     }
 
     /**
      * @return A posição que esta figurinha deve ocupar no álbum
      */
     public int getPosicao() {
-       return 0;  // ToDo IMPLEMENT ME!!!!
+       return this.posicao;
     }
 }
