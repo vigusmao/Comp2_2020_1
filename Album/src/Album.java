@@ -4,7 +4,7 @@ public class Album {
 
     public static final int PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR = 90;  // 90%
 
-    private Figurinha[] figurinhasColadas;
+    private ArrayList<Figurinha> figurinhasColadas;
 
     private int contRepetidas[];
 
@@ -17,7 +17,13 @@ public class Album {
     private int tamanhoDoAlbum;
 
     public Album(int tamanhoDoAlbum, int quantFigurinhasPorPacotinho) {
-        figurinhasColadas = new Figurinha[tamanhoDoAlbum + 1];
+        figurinhasColadas = new ArrayList<>();
+        /* inaugre as posições do ArrayList para que possam ser
+           acessadas diretamente via set() */
+        for (int i = 1; i <= tamanhoDoAlbum + 1; i++) {
+            figurinhasColadas.add(null);
+        }
+
         contRepetidas = new int[tamanhoDoAlbum + 1];
         this.quantFigurinhasPorPacotinho = quantFigurinhasPorPacotinho;
         this.tamanhoDoAlbum = tamanhoDoAlbum;
@@ -26,7 +32,7 @@ public class Album {
     public void receberNovoPacotinho(Pacotinho pacotinho) {
         for (Figurinha fig : pacotinho) {
             int posicao = fig.getPosicao();
-            if (figurinhasColadas[posicao] == null) {
+            if (figurinhasColadas.get(posicao) == null) {
                 // figurinha inédita!
                 colarFigurinhaInedita(fig);
             } else {
@@ -38,7 +44,7 @@ public class Album {
     }
 
     private void colarFigurinhaInedita(Figurinha fig) {
-        figurinhasColadas[fig.getPosicao()] = fig;
+        figurinhasColadas.set(fig.getPosicao(), fig);
         totalFigurinhasColadas++;
     }
 
@@ -48,7 +54,7 @@ public class Album {
         if (this.totalFigurinhasColadas >=
                 this.tamanhoDoAlbum * PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR / 100f) {
             for (int i = 1; i <= this.tamanhoDoAlbum; i++) {
-                if (this.figurinhasColadas[i] == null) {
+                if (this.figurinhasColadas.get(i) == null) {
                     Figurinha fig = new Figurinha(i);
                     colarFigurinhaInedita(fig);
                 }
@@ -77,7 +83,7 @@ public class Album {
         if (posicao < 1 || posicao > this.tamanhoDoAlbum) {
             return false;
         }
-        return this.figurinhasColadas[posicao] != null;
+        return this.figurinhasColadas.get(posicao) != null;
     }
 
     public boolean possuiFigurinhaRepetida(int posicao) {
