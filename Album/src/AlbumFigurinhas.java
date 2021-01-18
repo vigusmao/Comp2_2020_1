@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 
-public class Album {
+public class AlbumFigurinhas {
 
     public static final int PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR = 90;  // 90%
 
     private ArrayList<Figurinha> figurinhasColadas;
+
+    private RepositorioFigurinhas repositorioFigurinhas;
 
     private int contRepetidas[];
 
@@ -16,7 +18,11 @@ public class Album {
 
     private int tamanhoDoAlbum;
 
-    public Album(int tamanhoDoAlbum, int quantFigurinhasPorPacotinho) {
+    public AlbumFigurinhas(RepositorioFigurinhas repositorioFigurinhas, int quantFigurinhasPorPacotinho) {
+
+        this.repositorioFigurinhas = repositorioFigurinhas;
+        this.tamanhoDoAlbum = repositorioFigurinhas.getTamanhoDoAlbum();
+
         figurinhasColadas = new ArrayList<>();
         /* inaugre as posições do ArrayList para que possam ser
            acessadas diretamente via set() */
@@ -29,12 +35,12 @@ public class Album {
         this.tamanhoDoAlbum = tamanhoDoAlbum;
     }
 
-    public void receberNovoPacotinho(Pacotinho pacotinho) {
-        for (Figurinha fig : pacotinho) {
+    public void receberNovoPacotinho(PacotinhoFigurinhas pacotinhoFigurinhas) {
+        for (Figurinha fig : pacotinhoFigurinhas) {
             int posicao = fig.getPosicao();
             if (figurinhasColadas.get(posicao) == null) {
                 // figurinha inédita!
-                colarFigurinhaInedita(fig);
+                colarFigurinhaInedito(fig);
             } else {
                 // figurinha repetida!
                 contRepetidas[posicao]++;
@@ -43,8 +49,8 @@ public class Album {
         }
     }
 
-    private void colarFigurinhaInedita(Figurinha fig) {
-        figurinhasColadas.set(fig.getPosicao(), fig);
+    private void colarFigurinhaInedito(Figurinha figurinha) {
+        figurinhasColadas.set(figurinha.getPosicao(), figurinha);
         totalFigurinhasColadas++;
     }
 
@@ -55,8 +61,8 @@ public class Album {
                 this.tamanhoDoAlbum * PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR / 100f) {
             for (int i = 1; i <= this.tamanhoDoAlbum; i++) {
                 if (this.figurinhasColadas.get(i) == null) {
-                    Figurinha fig = new Figurinha(i);
-                    colarFigurinhaInedita(fig);
+                    Figurinha figurinha = repositorioFigurinhas.obterFigurinhaDoRepositorio(i);
+                    colarFigurinhaInedito(figurinha);
                 }
             }
         }
@@ -95,5 +101,9 @@ public class Album {
 
     public int getQuantFigurinhasFaltantes() {
         return this.tamanhoDoAlbum - this.totalFigurinhasColadas;
+    }
+
+    public Figurinha getFigurinhaColada(int posicao) {
+        return this.figurinhasColadas.get(posicao);
     }
 }

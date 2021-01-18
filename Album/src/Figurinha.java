@@ -1,6 +1,12 @@
 public class Figurinha {
 
-    private int posicao;
+    private final int posicao;
+
+    private String urlDaImagem;
+
+    private int alturaEmPixels;
+
+    private int larguraEmPixels;
 
     public Figurinha(int posicao) {
         this.posicao = posicao;
