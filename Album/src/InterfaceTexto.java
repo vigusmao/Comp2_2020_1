@@ -10,22 +10,24 @@ public class InterfaceTexto {
      */
     public static void main(String[] args) {
 
-        Album album = new Album(200, 3);
+        RepositorioSelos repositorioSelos = new RepositorioSelos("AlbumFigurinhas Teste", 200);
+        AlbumSelos albumSelos = new AlbumSelos(repositorioSelos, 3);
 
-        Pacotinho p1 = new Pacotinho(album, new int[] {1, 6, 18});
+        PacotinhoSelos p1 = new PacotinhoSelos(repositorioSelos, new int[] {1, 6, 18});
 
-        album.receberNovoPacotinho(p1);
+        albumSelos.receberNovoPacotinho(p1);
 
-        System.out.println("Possui figurinha 1? " + album.possuiFigurinhaColada(1));
-        System.out.println("Possui figurinha 6? " + album.possuiFigurinhaColada(6));
-        System.out.println("Possui figurinha 18? " + album.possuiFigurinhaColada(18));
-        System.out.println("Possui figurinha 60? " + album.possuiFigurinhaColada(60));
+        System.out.println("Possui selo 1? " + albumSelos.possuiSeloColado(1));
+        System.out.println("Possui selo 6? " + albumSelos.possuiSeloColado(6));
+        System.out.println("Possui selo 18? " + albumSelos.possuiSeloColado(18));
+        System.out.println("Possui selo 60? " + albumSelos.possuiSeloColado(60));
 
-        System.out.println("Quant figurinhas coladas? " + album.getQuantFigurinhasColadas());
+        System.out.println("Quant selos coladas? " + albumSelos.getQuantFigurinhasColadas());
 
-        Pacotinho p2 = new Pacotinho(album, new int[] {3, 6, 44});
+        PacotinhoSelos p2 = new PacotinhoSelos(repositorioSelos, new int[] {3, 6, 44});
+        albumSelos.receberNovoPacotinho(p2);
 
-        System.out.println("Tem figurinha repetida 6? " + album.possuiFigurinhaRepetida(6));
-        System.out.println("Quant figurinhas coladas? " + album.getQuantFigurinhasColadas());
+        System.out.println("Tem selo repetida 6? " + albumSelos.possuiFigurinhaRepetida(6));
+        System.out.println("Quant selos coladas? " + albumSelos.getQuantFigurinhasColadas());
     }
 }
