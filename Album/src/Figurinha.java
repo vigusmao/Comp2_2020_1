@@ -1,4 +1,4 @@
-public class Figurinha {
+public class Figurinha implements Colecionavel {
 
     private final int posicao;
 
@@ -15,6 +15,7 @@ public class Figurinha {
     /**
      * @return A posição que esta figurinha deve ocupar no álbum
      */
+    @Override
     public int getPosicao() {
        return this.posicao;
     }

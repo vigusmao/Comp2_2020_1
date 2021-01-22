@@ -1,4 +1,4 @@
-public class Selo {
+public class Selo implements Colecionavel {
 
     private String pais;
 
@@ -14,7 +14,12 @@ public class Selo {
         this.posicao = posicao;
     }
 
+    @Override
     public int getPosicao() {
         return this.posicao;
+    }
+
+    public String getPais() {
+        return pais;
     }
 }

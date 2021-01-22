@@ -10,24 +10,25 @@ public class InterfaceTexto {
      */
     public static void main(String[] args) {
 
-        RepositorioSelos repositorioSelos = new RepositorioSelos("AlbumFigurinhas Teste", 200);
-        AlbumSelos albumSelos = new AlbumSelos(repositorioSelos, 3);
+        Repositorio repositorioSelos = new Repositorio("Album Teste", 200, "selo");
 
-        PacotinhoSelos p1 = new PacotinhoSelos(repositorioSelos, new int[] {1, 6, 18});
+        Album albumSelos = new Album(repositorioSelos, 3);
+
+        Pacotinho p1 = new Pacotinho(repositorioSelos, new int[] {1, 6, 18});
 
         albumSelos.receberNovoPacotinho(p1);
 
-        System.out.println("Possui selo 1? " + albumSelos.possuiSeloColado(1));
-        System.out.println("Possui selo 6? " + albumSelos.possuiSeloColado(6));
-        System.out.println("Possui selo 18? " + albumSelos.possuiSeloColado(18));
-        System.out.println("Possui selo 60? " + albumSelos.possuiSeloColado(60));
+        System.out.println("Possui selo 1? " + albumSelos.possuiItemColado(1));
+        System.out.println("Possui selo 6? " + albumSelos.possuiItemColado(6));
+        System.out.println("Possui selo 18? " + albumSelos.possuiItemColado(18));
+        System.out.println("Possui selo 60? " + albumSelos.possuiItemColado(60));
 
-        System.out.println("Quant selos coladas? " + albumSelos.getQuantFigurinhasColadas());
+        System.out.println("Quant selos coladas? " + albumSelos.getQuantItensColados());
 
-        PacotinhoSelos p2 = new PacotinhoSelos(repositorioSelos, new int[] {3, 6, 44});
+        Pacotinho p2 = new Pacotinho(repositorioSelos, new int[] {3, 6, 44});
         albumSelos.receberNovoPacotinho(p2);
 
-        System.out.println("Tem selo repetida 6? " + albumSelos.possuiFigurinhaRepetida(6));
-        System.out.println("Quant selos coladas? " + albumSelos.getQuantFigurinhasColadas());
+        System.out.println("Tem selo repetida 6? " + albumSelos.possuiItemRepetido(6));
+        System.out.println("Quant selos coladas? " + albumSelos.getQuantItensColados());
     }
 }
