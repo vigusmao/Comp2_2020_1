@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
-public class MinhaImplementacaoDeMapa<C, V> implements Mapa<C, V> {
+public class MapaUsandoDoisArraysParalelos<C, V> implements Mapa<C, V> {
 
     private ArrayList<C> minhaListaDeChaves;
     private ArrayList<V> minhaListaDeValores;
 
-    public MinhaImplementacaoDeMapa() {
+    public MapaUsandoDoisArraysParalelos() {
         this.minhaListaDeChaves = new ArrayList<>();
         this.minhaListaDeValores = new ArrayList<>();
     }
@@ -25,7 +25,12 @@ public class MinhaImplementacaoDeMapa<C, V> implements Mapa<C, V> {
     }
 
     private int obterPosicaoChave(C chave) {
-        return this.minhaListaDeChaves.indexOf(chave);
+        for (int i = 0; i < this.minhaListaDeChaves.size(); i++) {
+            if (this.minhaListaDeChaves.get(i).equals(chave)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
