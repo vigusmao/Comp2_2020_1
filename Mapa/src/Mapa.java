@@ -8,7 +8,7 @@ public interface Mapa<C, V> {
      * @param chave A chave desejada
      * @param valor O valor associado à chave informada
      */
-    void adicionar(C chave, V valor);
+    void put(C chave, V valor);
 
     /**
      * Retorna o valor associado à chave informada.
@@ -17,5 +17,5 @@ public interface Mapa<C, V> {
      * @return O valor associado à chave, se existir;
      *         null, caso contrário
      */
-    V recuperarValor(C chave);
+    V get(C chave);
 }

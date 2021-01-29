@@ -1,6 +1,9 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
-public class MapaUsandoArrayOrdenado<C extends Comparable<C>, V> implements Mapa<C, V> {
+public class MapaUsandoArrayOrdenado<C extends Comparable<C>, V> implements Map<C, V> {
 
     private ArrayList<ParChaveValor<C, V>> minhaListaOrdenadaDePares;
 
@@ -9,18 +12,40 @@ public class MapaUsandoArrayOrdenado<C extends Comparable<C>, V> implements Mapa
     }
 
     @Override
-    public void adicionar(C chave, V valor) {
+    public int size() {
+        return 0;  // ToDo IMPLEMENT ME!!!
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;  // ToDo IMPLEMENT ME!!!
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        return false;  // ToDo IMPLEMENT ME!!!
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        return false;  // ToDo IMPLEMENT ME!!!
+    }
+
+    @Override
+    public V put(C chave, V valor) {
+
         int posicaoParaInsercao = -1;
 
         for (int i = 0; i < this.minhaListaOrdenadaDePares.size(); i++) {
             ParChaveValor<C, V> par = this.minhaListaOrdenadaDePares.get(i);
             if (par.getChave().equals(chave)) {
                 par.setValor(valor);
-                return;  // chave já existia; nada mais a ser feito!
+                return null;  // chave já existia; nada mais a ser feito!
+                // ToDo IMPLEMENT ME!!!  consertar o valor de retorno
             }
 
             if (par.getChave().compareTo(chave) > 0) {
-                // a chave da posição que estou olhando é maior do que a chave que quero adicionar
+                // a chave da posição que estou olhando é maior do que a chave que quero put
 
                 posicaoParaInsercao = i;
                 break;  // saio do for, pois já encontrei a posição para inserir
@@ -55,20 +80,54 @@ public class MapaUsandoArrayOrdenado<C extends Comparable<C>, V> implements Mapa
             this.minhaListaOrdenadaDePares.set(posicaoParaInsercao,
                     new ParChaveValor<>(chave, valor));
         }
+
+        return null;  // ToDo IMPLEMENT ME!!! (o que retornar aqui)
     }
 
     @Override
-    public V recuperarValor(C chaveDeBusca) {
+    public V remove(Object key) {
+        return null;
+    }
+
+    @Override
+    public void putAll(Map<? extends C, ? extends V> m) {
+
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public Set<C> keySet() {
+        return null;
+    }
+
+    @Override
+    public Collection<V> values() {
+        return null;
+    }
+
+    @Override
+    public Set<Entry<C, V>> entrySet() {
+        return null;
+    }
+
+    @Override
+    public V get(Object chaveDeBusca) {
         ParChaveValor<C, V> par = obterParChaveValor(chaveDeBusca);
         return par == null
                 ? null
                 : par.getValor();
     }
 
-    private ParChaveValor<C, V> obterParChaveValor(C chave) {
+    private ParChaveValor<C, V> obterParChaveValor(Object chave) {
         for (ParChaveValor<C, V> par : this.minhaListaOrdenadaDePares) {
             if (par.getChave().equals(chave)) {
                 return par;
+            } else if (par.getChave().compareTo((C) chave) > 0) {
+                break;
             }
         }
         return null;
