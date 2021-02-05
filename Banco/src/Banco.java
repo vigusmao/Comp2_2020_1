@@ -1,17 +1,22 @@
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Banco {
 
     Map<Long, ContaCorrente> contaPorNumero;
     Map<Long, Pessoa> correntistaPorCpf;
 
-    private Agencia agenciaUnica;
+    Set<Pessoa> correntistasComSaldoNegativo;
+
+    private Agencia agenciaMatriz;
 
     public Banco() {
         contaPorNumero = new HashMap<>();
         correntistaPorCpf = new HashMap<>();
-        agenciaUnica = new Agencia();
+        correntistasComSaldoNegativo = new HashSet<>();
+        agenciaMatriz = new Agencia(this, 1, "Agência Um");
     }
 
     public Pessoa cadastrarCorrentista(String nome, long cpf) {
@@ -37,7 +42,7 @@ public class Banco {
 
         // aceitamos mais de uma conta para o mesmo correntista
 
-        ContaCorrente novaConta = new ContaCorrente(correntista, this.agenciaUnica);
+        ContaCorrente novaConta = new ContaCorrente(correntista, this.agenciaMatriz);
         this.contaPorNumero.put(novaConta.getNumeroDaConta(), novaConta);
 
         return novaConta;
@@ -49,5 +54,13 @@ public class Banco {
 
     public ContaCorrente localizarConta(long numeroDaConta) {
         return this.contaPorNumero.get(numeroDaConta);
+    }
+
+    void registrarCorrentistaComSaldoNegativo(Pessoa correntista) {
+        this.correntistasComSaldoNegativo.add(correntista);
+    }
+
+    Set<Pessoa> getCorrentistasComSaldoNegativo() {
+        return this.correntistasComSaldoNegativo;
     }
 }

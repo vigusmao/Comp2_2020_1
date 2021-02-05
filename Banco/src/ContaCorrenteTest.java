@@ -10,6 +10,8 @@ public class ContaCorrenteTest {
     private Pessoa maria;
     private Pessoa joao;
 
+    private Banco banco;
+
     private Agencia minhaAgencia;
 
     private ContaCorrente contaDaMaria;
@@ -17,12 +19,14 @@ public class ContaCorrenteTest {
 
     @Before
     public void setUp() {
+        banco = new Banco();
+
         // cria algumas pessoas
         maria = new Pessoa("Maria", 12345678);
         joao = new Pessoa("Joao", 23222);
 
         // cria uma agencia
-        minhaAgencia = new Agencia();
+        minhaAgencia = new Agencia(banco, 1, "Agência Principal");
 
         ContaCorrente.numeroDeContasCriadas = 0;  // reseta o static da classe
 

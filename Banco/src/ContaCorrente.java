@@ -6,6 +6,9 @@ public class ContaCorrente {
     // o banco já te dá algo como estímulo :-)
     public static final float SALDO_INICIAL_DE_NOVAS_CONTAS = 10.0f;
 
+    //limite comum a todas as contas
+    public static final float LIMITE_CHEQUE_ESPECIAL = 200.0f;
+
     private final long numeroDaConta;
 
     private final Agencia agencia;
@@ -42,6 +45,14 @@ public class ContaCorrente {
         return saldoEmReais;
     }
 
+    private void setSaldoEmReais(float novoSaldo) {
+        this.saldoEmReais = novoSaldo;
+        if (novoSaldo < 0) {
+            this.agencia.getBanco().registrarCorrentistaComSaldoNegativo(
+                    this.correntista);
+        }
+    }
+
     public void depositar(float valor) {
         // valida o parâmetro
         if (valor <= 0) {
@@ -49,7 +60,7 @@ public class ContaCorrente {
         }
 
         // altera o saldo
-        saldoEmReais += valor;
+        setSaldoEmReais(this.saldoEmReais + valor);
 
         historicoDeOperacoes.add(String.format(
                 "Deposito em dinheiro: R$%.2f na data %s",
@@ -63,11 +74,11 @@ public class ContaCorrente {
         }
 
         // verifica se há fundos na conta
-        if (valor > saldoEmReais) {
+        if (valor > saldoEmReais + LIMITE_CHEQUE_ESPECIAL) {
             return;  // ToDo lançar uma exceção!!!!
         }
 
-        saldoEmReais -= valor;
+        setSaldoEmReais(this.saldoEmReais - valor);
 
         historicoDeOperacoes.add(String.format(
                 "Saque em dinheiro: R$%.2f na data %s",
@@ -88,11 +99,11 @@ public class ContaCorrente {
         }
 
         // verifica se há fundos na conta
-        if (valor > saldoEmReais) {
+        if (valor > saldoEmReais + LIMITE_CHEQUE_ESPECIAL) {
             return;  // ToDo lançar uma exceção!!!!
         }
 
-        saldoEmReais -= valor;
+        setSaldoEmReais(this.saldoEmReais - valor);
         contaDestino.saldoEmReais += valor;
 
         historicoDeOperacoes.add(String.format(
@@ -108,5 +119,9 @@ public class ContaCorrente {
         return historicoDeOperacoes.size() > 0 ?
                 historicoDeOperacoes.get(historicoDeOperacoes.size() - 1) :
                 null;
+    }
+
+    public Agencia getAgencia() {
+        return agencia;
     }
 }

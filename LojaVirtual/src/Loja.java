@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Loja virtual para a venda de livros (a princípio).
@@ -10,6 +11,8 @@ public class Loja {
     private String nomeDaLoja;
 
     private ArrayList<Vendavel> catalogo;
+
+    private Map<Vendavel, Integer> quantidadeEmEstoquePorItem;
 
     private Transportadora frete;
 
@@ -34,6 +37,13 @@ public class Loja {
 
         // verifica se existe no catálogo da loja
         if (buscarItem(item.getId()) == null) {
+            // ToDo lançar uma exceção específica
+            return null;
+        }
+
+        // verifica se existe aquela quantidade do produto desejado
+        // no estoque da loja
+        if (quantidadeEmEstoquePorItem.get(item) < quantidade) {
             // ToDo lançar uma exceção específica
             return null;
         }
