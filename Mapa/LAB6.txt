@@ -1,4 +1,4 @@
-1) Terminar a implementação das classes MapaUsandoArrayUnico e
+1) Terminar a implementação das classes MapaUsandoArrayNaoOrdenado e
    MapaUsandoArrayOrdenado (basta ver os ToDos que foram deixados)
 
 2) Escrever unit tests para estes métodos na classe MapaTest,
