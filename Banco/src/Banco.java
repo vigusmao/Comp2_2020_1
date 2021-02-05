@@ -1,17 +1,16 @@
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Banco {
 
-    private ArrayList<ContaCorrente> contas;
-
-    private ArrayList<Pessoa> correntistas; //  [xxxx]  [yyyy]  [$FF0C12]  [ ] ...
-                                            //   0         1        2       3  ...
+    Map<Long, ContaCorrente> contaPorNumero;
+    Map<Long, Pessoa> correntistaPorCpf;
 
     private Agencia agenciaUnica;
 
     public Banco() {
-        contas = new ArrayList<>();
-        correntistas = new ArrayList<>();
+        contaPorNumero = new HashMap<>();
+        correntistaPorCpf = new HashMap<>();
         agenciaUnica = new Agencia();
     }
 
@@ -23,7 +22,7 @@ public class Banco {
         } else {
             // Correntista novo
             p = new Pessoa(nome, cpf);
-            correntistas.add(p);
+            correntistaPorCpf.put(cpf, p);
         }
         return p;
     }
@@ -39,41 +38,16 @@ public class Banco {
         // aceitamos mais de uma conta para o mesmo correntista
 
         ContaCorrente novaConta = new ContaCorrente(correntista, this.agenciaUnica);
-        this.contas.add(novaConta);
+        this.contaPorNumero.put(novaConta.getNumeroDaConta(), novaConta);
 
         return novaConta;
     }
 
     public Pessoa localizarCorrentista(long cpf) {
-//        for (int i = 0; i < correntistas.size(); i++) {
-//            Pessoa correntista = correntistas.get(i);  // x = y
-//            if (correntista.getCpf() == cpf) {
-//                return correntista;
-//            }
-//        }
-//
-
-        // jeito mais elegante (equivale ao for de cima)...
-        for (Pessoa correntista : this.correntistas) {   // for each... (para cada elemento...)
-            if (correntista.getCpf() == cpf) {
-                return correntista;  // achei!
-            }
-        }
-
-        return null;  // não achei!
+        return this.correntistaPorCpf.get(cpf);
     }
 
     public ContaCorrente localizarConta(long numeroDaConta) {
-        for (ContaCorrente contaCandidata : this.contas) {
-            if (contaCandidata.getNumeroDaConta() == numeroDaConta) {
-                return contaCandidata;  // achei!!!!
-            }
-        }
-        return null;  // não achei!
+        return this.contaPorNumero.get(numeroDaConta);
     }
-
-
-
-
-
 }

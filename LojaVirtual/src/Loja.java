@@ -20,8 +20,8 @@ public class Loja {
     public Loja(Transportadora transportadora,
                 Impressora impressora) {
 
-        catalogo = new ArrayList<>();              // COMPOSIÇÃO
-        setFrete(transportadora);                  // AGREGAÇÃO
+        catalogo = new ArrayList<>();  // COMPOSIÇÃO
+        setFrete(transportadora);      // AGREGAÇÃO
         this.impressora = impressora;  // AGREGAÇÃO
         this.quantPedidosRecebidos = 0;
     }

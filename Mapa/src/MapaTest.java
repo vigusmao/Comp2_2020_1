@@ -42,6 +42,45 @@ public class MapaTest {
     }
 
     @Test
+    public void testeIsEmpty() {
+        rodarTesteParaClearEIsEmpty(mapaUsandoArrayNaoOrdenado);
+        rodarTesteParaClearEIsEmpty(mapaUsandoArrayOrdenado);
+        rodarTesteParaClearEIsEmpty(mapaUsandoDoisArraysParalelos);
+        rodarTesteParaClearEIsEmpty(hashMap);
+    }
+
+    private void rodarTesteParaClearEIsEmpty(Map<Long, String> mapa) {
+        mapa.put(1L, "Um");
+        mapa.put(2L, "Dois");
+
+        mapa.clear();
+
+        assertTrue(mapa.isEmpty());
+    }
+
+    @Test
+    public void testeRemove() {
+        rodarTesteParaRemove(mapaUsandoArrayNaoOrdenado);
+        rodarTesteParaRemove(mapaUsandoArrayOrdenado);
+        rodarTesteParaRemove(mapaUsandoDoisArraysParalelos);
+        rodarTesteParaRemove(hashMap);
+    }
+
+    private void rodarTesteParaRemove(Map<Long, String> mapa) {
+        mapa.put(1L, "Um");
+        mapa.put(2L, "Dois");
+        mapa.put(3L, "Três");
+        mapa.put(4L, "Quatro");
+
+        mapa.remove(3L);
+
+        assertTrue(mapa.containsKey(1L));
+        assertTrue(mapa.containsKey(2L));
+        assertFalse(mapa.containsKey(3L));
+        assertTrue(mapa.containsKey(4L));
+    }
+
+    @Test
     public void testeAtualizacaoParaChaveExistente() {
         rodarTesteAtualizacaoParaChaveExistente(mapaUsandoArrayNaoOrdenado);
         rodarTesteAtualizacaoParaChaveExistente(mapaUsandoArrayOrdenado);
@@ -58,9 +97,9 @@ public class MapaTest {
 
     @Test
     public void testarPerformance() {
-//        rodarTesteDePerformance(mapaUsandoArrayNaoOrdenado);
-//        rodarTesteDePerformance(mapaUsandoArrayOrdenado);
-//        rodarTesteDePerformance(mapaUsandoDoisArraysParalelos);
+        rodarTesteDePerformance(mapaUsandoArrayNaoOrdenado);
+        rodarTesteDePerformance(mapaUsandoArrayOrdenado);
+        rodarTesteDePerformance(mapaUsandoDoisArraysParalelos);
         rodarTesteDePerformance(hashMap);
     }
 

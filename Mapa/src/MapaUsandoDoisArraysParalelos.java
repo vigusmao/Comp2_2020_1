@@ -57,7 +57,16 @@ public class MapaUsandoDoisArraysParalelos<C, V> implements Map<C, V> {
 
     @Override
     public V remove(Object key) {
-        throw new RuntimeException("Operação não suportada!");
+        V valor = null;
+
+        int posicao = obterPosicaoChave(key);
+        if (posicao != -1) {
+            valor = this.minhaListaDeValores.get(posicao);
+            this.minhaListaDeChaves.remove(posicao);
+            this.minhaListaDeValores.remove(posicao);
+        }
+
+        return valor;
     }
 
     @Override
