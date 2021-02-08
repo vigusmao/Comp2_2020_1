@@ -43,24 +43,19 @@ public class Principal {
         int quantidadeDesejada = 20;
         int contTentativasDePagamento = 1;
 
-        boolean concluido = false;
-
-        while (!concluido) {
+        while (true) {
             try {
                 minhaLoja.receberPedido(livro1, quantidadeDesejada, joao);
-                concluido = true;  // Deu tudo certo! Estou saindo do while!
-
 
             } catch (ItemNaoExisteNoCatalogoException e) {
                 System.out.println("Item inexistente");
-                concluido = true;  // saindo do while
+
 
             } catch (EstoqueInsuficienteException e) {
                 int quantidadeEmEstoque = e.getQuantidadeEmEstoque();
 
                 if (quantidadeEmEstoque == 0) {
                     System.out.println("Estoque esgotado!");
-                    concluido = true;  // não adianta retentar!!!!
                 }
 
                 // tratamento possível: compra menos unidades
@@ -72,6 +67,8 @@ public class Principal {
                 quantidadeDesejada = quantidadeEmEstoque;
 
                 // vai repetir a tentativa de compra naturalmente (próxima iteração do while)
+                continue;
+
 
             } catch (EnderecoInvalidoException e) {
 
@@ -80,6 +77,8 @@ public class Principal {
                 joao.setEndereco(enderecoDigitado);
 
                 // vai repetir a tentativa de compra naturalmente (próxima iteração do while)
+                continue;
+
 
             } catch (ErroNoPagamentoException e) {
 
@@ -87,12 +86,15 @@ public class Principal {
 
                 if (contTentativasDePagamento <= 3) {
                     System.out.println("Tentativa #" + (++contTentativasDePagamento) + " em curso...");
+                    continue;
 
                 } else {
                     System.out.println("Operação abortada.");
-                    concluido = true;
+                    // break;
                 }
             }
+
+            break;  // se chegar até aqui, interrompe o while...
         }
     }
 
