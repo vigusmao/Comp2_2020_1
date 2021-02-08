@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 
 public class LojaTest {
 
-/*    Loja loja;
+    Loja loja;
     Livro livro1;
     Livro livro2;
     CD cd1;
@@ -22,8 +22,8 @@ public class LojaTest {
         grafica1 = new Grafica();
 
         loja = new Loja(
-                gatoPreto,  // informamos à loja qual a transportadora que ela vai usar (agregação)
-                grafica1);  // ...e o serviço de impressão que ela vai usar (agregação tb)
+                gatoPreto,                // informamos à loja qual a transportadora que ela vai usar (agregação)
+                impressoraJatoDeTinta1);  // ...e o serviço de impressão que ela vai usar (agregação tb)
 
 
         livro1 = new Livro(12345, "Da Terra à Lua", "Julio Verne", null, 1865);
@@ -48,8 +48,13 @@ public class LojaTest {
     }
 
     @Test
-    public void testarVendaParaProdutoExistente() {
-        String recibo = loja.receberPedido(livro2, 5, comprador);
+    public void testarVendaParaProdutoExistente() throws
+            ItemNaoExisteNoCatalogoException, EstoqueInsuficienteException,
+            EnderecoInvalidoException, ErroNoPagamentoException {
+
+        String recibo = null;
+        recibo = loja.receberPedido(livro2, 5, comprador);
+
         assertNotNull(recibo);
         System.out.println(recibo);
 
@@ -63,10 +68,12 @@ public class LojaTest {
     }
 
     @Test
-    public void testarVendaParaProdutoNaoExistente() {
+    public void testarVendaParaProdutoNaoExistente() throws
+            EnderecoInvalidoException, ItemNaoExisteNoCatalogoException,
+            EstoqueInsuficienteException, ErroNoPagamentoException {
+
         Livro livroNaoExistente = new Livro(1010101, "Blah", "Qualquer coisa", null, 2000);
         String recibo = loja.receberPedido(livroNaoExistente, 5, comprador);
         assertNull(recibo);
-    }*/
-
+    }
 }

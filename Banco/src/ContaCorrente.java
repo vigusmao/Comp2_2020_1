@@ -67,15 +67,18 @@ public class ContaCorrente {
                 valor, new Date()));
     }
 
-    public void sacar(float valor) {
+    public void sacar(float valor)
+            throws SaqueDeValorNaoPositivoException, SaldoInsuficienteException {
+
         // valida o parâmetro
         if (valor <= 0) {
-            return;  // ToDo lançar uma exceção!!!!
+            throw new SaqueDeValorNaoPositivoException();
         }
 
         // verifica se há fundos na conta
-        if (valor > saldoEmReais + LIMITE_CHEQUE_ESPECIAL) {
-            return;  // ToDo lançar uma exceção!!!!
+        float valorAlemDoLimite = valor - (saldoEmReais + LIMITE_CHEQUE_ESPECIAL);
+        if (valorAlemDoLimite > 0) {
+            throw new SaldoInsuficienteException(valorAlemDoLimite);
         }
 
         setSaldoEmReais(this.saldoEmReais - valor);

@@ -33,32 +33,34 @@ public class Loja {
         frete = transportadora;
     }
 
-    public String receberPedido(Vendavel item, int quantidade, Usuario usuario) {
+    public String receberPedido(Vendavel item, int quantidade, Usuario usuario)
+            throws
+            ItemNaoExisteNoCatalogoException,
+            EstoqueInsuficienteException,
+            EnderecoInvalidoException,
+            ErroNoPagamentoException {
 
         // verifica se existe no catálogo da loja
         if (buscarItem(item.getId()) == null) {
-            // ToDo lançar uma exceção específica
-            return null;
+            throw new ItemNaoExisteNoCatalogoException();
         }
 
         // verifica se existe aquela quantidade do produto desejado
         // no estoque da loja
-        if (quantidadeEmEstoquePorItem.get(item) < quantidade) {
-            // ToDo lançar uma exceção específica
-            return null;
+        final Integer quantidadeEmEstoque = quantidadeEmEstoquePorItem.get(item);
+        if (quantidadeEmEstoque < quantidade) {
+            throw new EstoqueInsuficienteException(quantidadeEmEstoque);
         }
 
         // verifica se o usuário tem um endereço de entrega válido
         if (usuario.getEndereco() == null) {
-            // Todo lançar uma exceção específica
-            return null;
+            throw new EnderecoInvalidoException();
         }
 
         float precoTotal = quantidade * item.getPrecoEmReais();
 
         if (!processarPagamento(precoTotal)) {
-            // ToDo lançar uma exceção específica
-            return null;
+            throw new ErroNoPagamentoException();
         }
 
         if (item instanceof Transportavel) {  // é transportável?

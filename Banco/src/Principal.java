@@ -32,6 +32,44 @@ public class Principal {
                     break;  // switch
 
                 case "S":
+                    System.out.print("Número da conta: ");
+                    numeroDaConta = Long.parseLong(scanner.nextLine());
+                    System.out.print("Valor desejado: ");
+                    valor = Float.parseFloat(scanner.nextLine());
+
+                    contaCorrente = meuBanco.localizarConta(numeroDaConta);
+                    if (contaCorrente != null) {
+
+
+                        try {
+                            contaCorrente.sacar(valor);
+                        } catch (SaqueDeValorNaoPositivoException e) {
+
+                            // qual o tratamento que eu quero dar?
+                            System.out.println("Valor inválido!");
+
+                        } catch (SaldoInsuficienteException e) {
+
+                            // qual o tratamento que eu quero dar para esse outro caso?
+
+                            // 1) enviarEmail(contaCorrente.getAgencia().getGerenteGeral(),
+                            //        "Usuario precisando de emprestimo!!!");   ???
+
+                            // 2) resgate de aplicação automática  ???
+                            //
+                            //  etc. etc.
+
+                            System.out.println("Saldo insuficiente!!!");
+                        }
+
+
+
+
+                        System.out.println(contaCorrente.getUltimoItemHistorico());
+                    } else {
+                        System.out.println("Conta inexistente!");
+                    }
+                    break;  // switch
 
                 case "T":
 

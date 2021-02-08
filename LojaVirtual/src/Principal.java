@@ -20,17 +20,78 @@ public class Principal {
         }
     }
 
-
-
     public static void main(String[] args) {
 
-        Impressora impressora;
+//        Impressora impressora;
+//        impressora = instanciarImpressora();
+//        int ano = impressora.getAnoDeFabricacao();
+//        impressora.imprimir("blah");
 
-        impressora = instanciarImpressora();
+        Scanner sc = new Scanner(System.in);
 
-        int ano = impressora.getAnoDeFabricacao();
+        Transportadora transportadora = new Transportadora();
+        Impressora impressora = new ImpressoraJatoDeTinta("Epson", 2018);
 
-        impressora.imprimir("blah");
+
+        Loja minhaLoja = new Loja(transportadora, impressora);
+        Livro livro1 = new Livro(11111, "O Pequeno Principe", "Saint Exupery",
+                "Abril", 1920);
+        minhaLoja.incluirItem(livro1);
+
+        Usuario joao = new Usuario(123456, "Joao");
+
+        int quantidadeDesejada = 20;
+        int contTentativasDePagamento = 1;
+
+        while (true) {
+            try {
+                minhaLoja.receberPedido(livro1, quantidadeDesejada, joao);
+                break;  // Deu tudo certo! Estou saindo do while!
+
+
+            } catch (ItemNaoExisteNoCatalogoException e) {
+                System.out.println("Item inexistente");
+                break;  // saindo do while
+
+            } catch (EstoqueInsuficienteException e) {
+                int quantidadeEmEstoque = e.getQuantidadeEmEstoque();
+
+                if (quantidadeEmEstoque == 0) {
+                    System.out.println("Estoque esgotado!");
+                    break;  // não adianta retentar!!!!
+                }
+
+                // tratamento possível: compra menos unidades
+                int quantidadesFaltantes = quantidadeDesejada - quantidadeEmEstoque;
+                System.out.println("Estoque insuficiente. Serão compradas apenas " +
+                        quantidadeEmEstoque + " unidades. Ficarão faltando " +
+                        quantidadesFaltantes +  " unidades.");
+
+                quantidadeDesejada = quantidadeEmEstoque;
+
+                // vai repetir a tentativa de compra naturalmente (próxima iteração do while)
+
+            } catch (EnderecoInvalidoException e) {
+
+                System.out.println("Endereco Inválido. Digite o endereço de entrega por favor: ");
+                String enderecoDigitado = sc.nextLine();
+                joao.setEndereco(enderecoDigitado);
+
+                // vai repetir a tentativa de compra naturalmente (próxima iteração do while)
+
+            } catch (ErroNoPagamentoException e) {
+
+                System.out.println("Problema no pagamento");
+
+                if (contTentativasDePagamento <= 3) {
+                    System.out.println("Tentativa #" + (++contTentativasDePagamento) + " em curso...");
+
+                } else {
+                    System.out.println("Operação abortada.");
+                    break;
+                }
+            }
+        }
     }
 
 
