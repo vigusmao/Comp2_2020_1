@@ -43,22 +43,24 @@ public class Principal {
         int quantidadeDesejada = 20;
         int contTentativasDePagamento = 1;
 
-        while (true) {
+        boolean concluido = false;
+
+        while (!concluido) {
             try {
                 minhaLoja.receberPedido(livro1, quantidadeDesejada, joao);
-                break;  // Deu tudo certo! Estou saindo do while!
+                concluido = true;  // Deu tudo certo! Estou saindo do while!
 
 
             } catch (ItemNaoExisteNoCatalogoException e) {
                 System.out.println("Item inexistente");
-                break;  // saindo do while
+                concluido = true;  // saindo do while
 
             } catch (EstoqueInsuficienteException e) {
                 int quantidadeEmEstoque = e.getQuantidadeEmEstoque();
 
                 if (quantidadeEmEstoque == 0) {
                     System.out.println("Estoque esgotado!");
-                    break;  // não adianta retentar!!!!
+                    concluido = true;  // não adianta retentar!!!!
                 }
 
                 // tratamento possível: compra menos unidades
@@ -88,7 +90,7 @@ public class Principal {
 
                 } else {
                     System.out.println("Operação abortada.");
-                    break;
+                    concluido = true;
                 }
             }
         }
