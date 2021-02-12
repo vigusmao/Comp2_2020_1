@@ -1,5 +1,6 @@
 package controle;
 
+import excecoes.ControleException;
 import excecoes.LimiteExcedidoException;
 import excecoes.SituacaoAleatoriaException;
 
@@ -9,13 +10,16 @@ public class ClasseB {
 
     private int contSituacoesAleatorias;
 
-    public ClasseB() {
+    public ClasseB(int limite) {
         contSituacoesAleatorias = 0;
-        objetoDaClasseC = new ClasseC(300);   // composição
+        objetoDaClasseC = new ClasseC(limite);   // composição
     }
 
-    public void executarUmaRotinaQualquer(int idade, float alturaEmMetros)
-            throws LimiteExcedidoException {
+    public void executarUmaRotinaQualquer(
+            int idade, float alturaEmMetros)
+            throws ControleException {
+
+        System.out.println("ClasseB: executarUmaRotinaQualquer()...");
 
         // faça algo
 
@@ -28,15 +32,35 @@ public class ClasseB {
 
             // agora chame o método do objeto da ClasseC
             try {
-                this.objetoDaClasseC.facaAlgoComUmNumero(idade - 10);
-                concluido = true;
+                final int parametro = idade - 10;
+                System.out.println(
+                        "ClasseB: vou chamar classeC.facaAlgoComUmNumero(" +
+                        parametro + ")...");
+                this.objetoDaClasseC.facaAlgoComUmNumero(parametro);
+
+                System.out.println("ClasseB: continuando no bloco try depois da chamada ao método crítico...");
+
+                return;
+
 
             } catch (SituacaoAleatoriaException e) {
+                System.out.println("ClasseB: capturei uma SituacaoAleatoriaException!!");
                 contSituacoesAleatorias++;
+
                 // vou deixar tentar novamente, basta seguir sem sair do while
+
+            } catch (Exception e) {
+                System.out.println("ClasseB: capturei uma exceção no catch genérico: " + e.getClass());
+                System.out.println("ClasseB: vou agora lançar uma ControleException...");
+                throw new ControleException();
+
+            } finally {
+                System.out.println("ClasseB: Entrando no bloco finally...");
             }
+
+            System.out.println("ClasseB: continuando depois do try...catch");
         }
+
+        System.out.println("ClasseB: saí do while, chegando ao final do método.");
     }
-
-
 }
