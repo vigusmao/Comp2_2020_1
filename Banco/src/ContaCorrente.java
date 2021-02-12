@@ -30,7 +30,6 @@ public class ContaCorrente {
         this.dataDeCriacao = new Date();  // data corrente
         this.saldoEmReais = SALDO_INICIAL_DE_NOVAS_CONTAS;
 
-        // ToDO FIX ME!!!!
         this.numeroDaConta = ++numeroDeContasCriadas;
 
         this.correntista = correntista;
