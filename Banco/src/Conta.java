@@ -1,13 +1,17 @@
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
-public class ContaCorrente {
+public class Conta {
 
     // o banco já te dá algo como estímulo :-)
     public static final float SALDO_INICIAL_DE_NOVAS_CONTAS = 10.0f;
 
     //limite comum a todas as contas
     public static final float LIMITE_CHEQUE_ESPECIAL = 200.0f;
+
+    // não é permitido investir em doses homeopáticas! :-)
+    public static final float APORTE_MINIMO_PARA_INVESTIMENTOS = 500.0f;
 
     private final long numeroDaConta;
 
@@ -21,19 +25,33 @@ public class ContaCorrente {
 
     private Pessoa gerenteDaConta;
 
+    private final TipoDeConta tipo;
+
     private ArrayList<String> historicoDeOperacoes;
 
     static int numeroDeContasCriadas = 0;
 
-    public ContaCorrente(Pessoa correntista, Agencia agencia) {
+    /**
+     *
+     * @param correntista
+     * @param agencia
+     * @param tipo o tipo
+     */
+    public Conta(Pessoa correntista, Agencia agencia, TipoDeConta tipo) {
         this.historicoDeOperacoes = new ArrayList<>();
         this.dataDeCriacao = new Date();  // data corrente
         this.saldoEmReais = SALDO_INICIAL_DE_NOVAS_CONTAS;
+
+        this.tipo = tipo;
 
         this.numeroDaConta = ++numeroDeContasCriadas;
 
         this.correntista = correntista;
         this.agencia = agencia;
+    }
+
+    public TipoDeConta getTipo() {
+        return this.tipo;
     }
 
     public long getNumeroDaConta() {
@@ -52,10 +70,34 @@ public class ContaCorrente {
         }
     }
 
+    public void depositarEmDinheiro(Map<Dinheiro, Integer> contagemPorCedulaOuMoeda) {
+        float totalADepositar = 0;
+
+//        for (Dinheiro cedulaOuMoeda : contagemPorCedulaOuMoeda.keySet()) {
+//            int contagem = contagemPorCedulaOuMoeda.get(cedulaOuMoeda);
+//            totalADepositar += contagem * cedulaOuMoeda.getValorMonetario();
+//        }
+
+        /* jeito mais elegante (e performático!) de iterar pelas chaves
+                 e valores de um mapa */
+        for (Map.Entry<Dinheiro, Integer> itemDoMapa : contagemPorCedulaOuMoeda.entrySet()) {
+            Dinheiro cedulaOuMoeda = itemDoMapa.getKey();
+            Integer contagem = itemDoMapa.getValue();
+            totalADepositar += contagem * cedulaOuMoeda.getValorMonetario();
+        }
+
+        depositar(totalADepositar);
+    }
+
     public void depositar(float valor) {
         // valida o parâmetro
         if (valor <= 0) {
             return;  // ToDo lançar uma exceção!!!!
+        }
+
+        if (tipo == TipoDeConta.CONTA_INVESTIMENTO &&
+                valor < APORTE_MINIMO_PARA_INVESTIMENTOS) {
+            return;  // ToDo lançar exceção específica (checked)
         }
 
         // altera o saldo
@@ -94,7 +136,7 @@ public class ContaCorrente {
      * @param valor o valor desejado
      * @param contaDestino a conta de destino
      */
-    public void transferir(float valor, ContaCorrente contaDestino) {
+    public void transferir(float valor, Conta contaDestino) {
         // valida o parâmetro
         if (valor <= 0) {
             return;  // ToDo lançar uma exceção!!!!

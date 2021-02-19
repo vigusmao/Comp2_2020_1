@@ -1,9 +1,12 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
-public class ContaCorrenteTest {
+public class ContaTest {
 
     private static final float ERRO_ACEITAVEL_NOS_FLOATS = 0.000001f;
 
@@ -14,8 +17,8 @@ public class ContaCorrenteTest {
 
     private Agencia minhaAgencia;
 
-    private ContaCorrente contaDaMaria;
-    private ContaCorrente contaDoJoao;
+    private Conta contaDaMaria;
+    private Conta contaDoJoao;
 
     @Before
     public void setUp() {
@@ -28,24 +31,24 @@ public class ContaCorrenteTest {
         // cria uma agencia
         minhaAgencia = new Agencia(banco, 1, "Agência Principal");
 
-        ContaCorrente.numeroDeContasCriadas = 0;  // reseta o static da classe
+        Conta.numeroDeContasCriadas = 0;  // reseta o static da classe
 
         // cria algumas contas
-        contaDaMaria = new ContaCorrente(maria, minhaAgencia);
-        contaDoJoao = new ContaCorrente(joao, minhaAgencia);
+        contaDaMaria = new Conta(maria, minhaAgencia, TipoDeConta.CONTA_CORRENTE);
+        contaDoJoao = new Conta(joao, minhaAgencia, TipoDeConta.CONTA_SALARIO);
     }
 
     @Test
     public void testarNumerosAutomaticosDeContas() {
         assertEquals(1, contaDaMaria.getNumeroDaConta());
         assertEquals(2, contaDoJoao.getNumeroDaConta());
-//        ContaCorrente novaConta = new ContaCorrente(maria, minhaAgencia);
+//        Conta novaConta = new Conta(maria, minhaAgencia);
 //        long numeroDaConta = novaConta.getNumeroDaConta();
 //
 //        assertEquals(numeroDaConta + 1,
-//                (new ContaCorrente(joao, minhaAgencia).getNumeroDaConta()));
+//                (new Conta(joao, minhaAgencia).getNumeroDaConta()));
 //        assertEquals(numeroDaConta + 2,
-//                (new ContaCorrente(joao, minhaAgencia).getNumeroDaConta());
+//                (new Conta(joao, minhaAgencia).getNumeroDaConta());
     }
 
     @Test
@@ -62,15 +65,27 @@ public class ContaCorrenteTest {
         assertFloatEquals(1510f, contaDaMaria.getSaldoEmReais());  // nada mudou,porque o depósito não foi feito
    }
 
+   @Test
+   public void testarDepositoEmDinheiro() {
+       checarSaldoInicial(contaDaMaria);
+
+       Map<Dinheiro, Integer> contagemPorCedulaOuMoeda = new HashMap<>();
+       contagemPorCedulaOuMoeda.put(Dinheiro.MOEDA_DE_CINCO_CENTAVOS, 3);
+       contagemPorCedulaOuMoeda.put(Dinheiro.CEDULA_DE_DUZENTOS_REAIS, 1);
+
+       contaDaMaria.depositarEmDinheiro(contagemPorCedulaOuMoeda);
+       assertFloatEquals(210.15f, contaDaMaria.getSaldoEmReais());
+   }
+
     @Test
-    public void testarSaque() {
+    public void testarSaque() throws SaldoInsuficienteException, SaqueDeValorNaoPositivoException {
         checarSaldoInicial(contaDaMaria);
         contaDaMaria.sacar(7);
         assertEquals(3f, contaDaMaria.getSaldoEmReais(), ERRO_ACEITAVEL_NOS_FLOATS);
     }
 
     @Test
-    public void testarSaqueSemFundos() {
+    public void testarSaqueSemFundos() throws SaldoInsuficienteException, SaqueDeValorNaoPositivoException {
         checarSaldoInicial(contaDaMaria);
         contaDaMaria.sacar(17);
         assertFloatEquals(10f, contaDaMaria.getSaldoEmReais());
@@ -101,10 +116,10 @@ public class ContaCorrenteTest {
         // a transferência NÃO DEVE SER REALIZADA, porque não fundos na conta de origem (Maria).
     }
 
-    private void checarSaldoInicial(ContaCorrente conta) {
+    private void checarSaldoInicial(Conta conta) {
         // sanity check: as contas já começam com saldo 10 (regra de negócio)
         assertFloatEquals(
-                ContaCorrente.SALDO_INICIAL_DE_NOVAS_CONTAS,
+                Conta.SALDO_INICIAL_DE_NOVAS_CONTAS,
                 conta.getSaldoEmReais());
     }
 

@@ -1,0 +1,8 @@
+public enum TipoDeConta {
+
+    CONTA_CORRENTE,
+    CONTA_POUPANCA,
+    CONTA_SALARIO,
+    CONTA_INVESTIMENTO;
+
+}

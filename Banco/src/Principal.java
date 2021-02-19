@@ -22,7 +22,7 @@ public class Principal {
                     System.out.print("Valor desejado: ");
                     float valor = Float.parseFloat(scanner.nextLine());
 
-                    ContaCorrente contaCorrente = meuBanco.localizarConta(numeroDaConta);
+                    Conta contaCorrente = meuBanco.localizarConta(numeroDaConta);
                     if (contaCorrente != null) {
                         contaCorrente.depositar(valor);
                         System.out.println(contaCorrente.getUltimoItemHistorico());
@@ -76,7 +76,7 @@ public class Principal {
                 case "C":
                     System.out.print("Número da conta: ");
                     long numero = Long.parseLong(scanner.nextLine());
-                    ContaCorrente conta = meuBanco.localizarConta(numero);
+                    Conta conta = meuBanco.localizarConta(numero);
                     if (conta != null) {
                         System.out.println(String.format("Saldo = %.2f",
                                 conta.getSaldoEmReais()));
@@ -101,7 +101,7 @@ public class Principal {
                     cpf = Long.parseLong(scanner.nextLine());
                     Pessoa correntista = meuBanco.localizarCorrentista(cpf);
                     if (correntista != null) {
-                        ContaCorrente novaConta = meuBanco.cadastrarConta(correntista);
+                        Conta novaConta = meuBanco.cadastrarConta(correntista);
                         System.out.println("Conta criada com o número " + novaConta.getNumeroDaConta());
                     } else {
                         System.out.println("Correntista não existe!");

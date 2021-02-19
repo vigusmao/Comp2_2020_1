@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Banco {
 
-    Map<Long, ContaCorrente> contaPorNumero;
+    Map<Long, Conta> contaPorNumero;
     Map<Long, Pessoa> correntistaPorCpf;
 
     Set<Pessoa> correntistasComSaldoNegativo;
@@ -32,7 +32,7 @@ public class Banco {
         return p;
     }
 
-    public ContaCorrente cadastrarConta(Pessoa correntista) {
+    public Conta cadastrarConta(Pessoa correntista) {
         // verifica correntista
         if (localizarCorrentista(correntista.getCpf()) == null) {
             // correntista não existe!!
@@ -42,7 +42,8 @@ public class Banco {
 
         // aceitamos mais de uma conta para o mesmo correntista
 
-        ContaCorrente novaConta = new ContaCorrente(correntista, this.agenciaMatriz);
+        Conta novaConta = new Conta(correntista, this.agenciaMatriz,
+                TipoDeConta.CONTA_CORRENTE);
         this.contaPorNumero.put(novaConta.getNumeroDaConta(), novaConta);
 
         return novaConta;
@@ -52,7 +53,7 @@ public class Banco {
         return this.correntistaPorCpf.get(cpf);
     }
 
-    public ContaCorrente localizarConta(long numeroDaConta) {
+    public Conta localizarConta(long numeroDaConta) {
         return this.contaPorNumero.get(numeroDaConta);
     }
 

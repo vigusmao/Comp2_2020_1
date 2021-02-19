@@ -1,4 +1,4 @@
-1) Termine de substituir os ToDos da classe ContaCorrente
+1) Termine de substituir os ToDos da classe Conta
    por lançamentos de checked exceptions
 
 2) Verifique os chamadores dos métodos que você mexerá
@@ -6,4 +6,4 @@
    exception seja lançada
 
 3) Escreva unit tests para todas as situações excepcionais que
-   podem acontecer dentro da classe ContaCorrente
+   podem acontecer dentro da classe Conta

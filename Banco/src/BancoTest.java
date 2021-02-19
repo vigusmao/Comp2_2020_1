@@ -13,10 +13,10 @@ public class BancoTest {
     }
 
     @Test
-    public void testarCadastroDeUsuariosComSaldoNegativo() {
+    public void testarCadastroDeUsuariosComSaldoNegativo() throws SaldoInsuficienteException, SaqueDeValorNaoPositivoException {
         Pessoa maria = banco.cadastrarCorrentista(
                 "Mariah", 123456L);
-        ContaCorrente contaDaMaria = banco.cadastrarConta(maria);
+        Conta contaDaMaria = banco.cadastrarConta(maria);
         contaDaMaria.depositar(1000);
         contaDaMaria.sacar(1100);
 

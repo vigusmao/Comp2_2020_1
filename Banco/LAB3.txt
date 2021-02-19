@@ -16,7 +16,7 @@
    - para sacar, idem
    - para transferir, idem e também o número da conta de destino
    - para cadastrar um correntista, deverá pedir os parâmetros requeridos pelo construtor de Pessoa
-   - para criar uma nova conta, deverá pedir os parâmetros requeridos pelo construtor de ContaCorrente,
+   - para criar uma nova conta, deverá pedir os parâmetros requeridos pelo construtor de Conta,
      e deverá imprimir o número da conta recém-criada
 
 3) A agência será a mesma (uma agência padrão criada no começo do main()) para todas as contas
