@@ -57,6 +57,14 @@ public class Loja {
             throw new EnderecoInvalidoException();
         }
 
+        if (item instanceof Livro) {
+            // agora sim já sabemos que item é um Livro,
+            // então podemos fazer um typecast e usar coisas específicas
+            // de livro, como por exemplo perguntar sua categoria
+
+            // ToDo colocar a lógica nova
+        }
+
         float precoTotal = quantidade * item.getPrecoEmReais();
 
         if (!processarPagamento(precoTotal)) {
