@@ -29,6 +29,8 @@ public class Conta {
 
     private ArrayList<String> historicoDeOperacoes;
 
+    private DiaDaSemana diaDaSemanaParaSorteio;
+
     static int numeroDeContasCriadas = 0;
 
     /**
@@ -48,6 +50,30 @@ public class Conta {
 
         this.correntista = correntista;
         this.agencia = agencia;
+
+//        this.diaDaSemanaParaSorteio = "Segunda";
+//        this.diaDaSemanaParaSorteio = "segunda";
+//        this.diaDaSemanaParaSorteio = "2a";
+//        this.diaDaSemanaParaSorteio = "segunda-feira";
+//        this.diaDaSemanaParaSorteio = "Mon";
+//        this.diaDaSemanaParaSorteio = "Monday";
+//        this.diaDaSemanaParaSorteio = "sdlkdsksdfkjhdsf";
+
+        this.diaDaSemanaParaSorteio = DiaDaSemana.DOMINGO;  // domingo ??
+        this.diaDaSemanaParaSorteio = DiaDaSemana.SEGUNDA;  // segunda ??
+//        this.diaDaSemanaParaSorteio = 1;
+//        this.diaDaSemanaParaSorteio = 2;
+//        this.diaDaSemanaParaSorteio = -999;
+//        this.diaDaSemanaParaSorteio = "segunda";
+
+    }
+
+    public DiaDaSemana getDiaDaSemanaParaSorteio() {
+        return diaDaSemanaParaSorteio;
+    }
+
+    public void setDiaDaSemanaParaSorteio(DiaDaSemana diaDaSemana) {
+        this.diaDaSemanaParaSorteio = diaDaSemana;
     }
 
     public TipoDeConta getTipo() {

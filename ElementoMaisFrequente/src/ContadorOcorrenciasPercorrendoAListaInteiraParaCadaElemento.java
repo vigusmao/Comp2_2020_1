@@ -1,17 +1,17 @@
 import java.util.List;
 
-public class ContadorOcorrenciasPercorrendoAListaInteiraParaCadaElemento
-        implements ContadorOcorrencias {
+public class ContadorOcorrenciasPercorrendoAListaInteiraParaCadaElemento<T>
+        implements ContadorOcorrencias<T> {
 
     @Override
-    public Integer retornarElementoMaisFrequente(List<Integer> lista) {
+    public T retornarElementoMaisFrequente(List<T> lista) {
 
-        Integer elementoMaisFrequenteAteOMomento = null;
+        T elementoMaisFrequenteAteOMomento = null;
         int ocorrenciasDoElementoMaisFrequente = 0;
 
 
         for (int i = 0; i < lista.size(); i++) {
-            Integer elementoDaVez = lista.get(i);
+            T elementoDaVez = lista.get(i);
 
             int ocorrenciasDoElementoDaVez = 0;
             for (int j = 0; j < lista.size(); j++) {

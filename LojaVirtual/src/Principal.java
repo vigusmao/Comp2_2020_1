@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Scanner;
 
 /**
@@ -19,8 +22,6 @@ public class Principal {
             return new ImpressoraMatricial();
         }
     }
-
-    public static void main(String[] args) {
 
 //        Impressora impressora;
 //        impressora = instanciarImpressora();

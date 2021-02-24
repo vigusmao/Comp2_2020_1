@@ -2,19 +2,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ContadorOcorrenciasUsandoHashMap
-        implements ContadorOcorrencias {
+public class ContadorOcorrenciasUsandoHashMap<T> implements ContadorOcorrencias<T> {
 
     @Override
-    public Integer retornarElementoMaisFrequente(List<Integer> lista) {
+    public T retornarElementoMaisFrequente(List<T> lista) {
 
-        Integer elementoMaisFrequenteAteOMomento = null;
+        T elementoMaisFrequenteAteOMomento = null;
         int ocorrenciasDoElementoMaisFrequente = 0;
 
 
-        Map<Integer, Integer> numeroDeOcorrenciasPorElemento = new HashMap<>();
+        Map<T, Integer> numeroDeOcorrenciasPorElemento = new HashMap<>();
 
-        for (Integer elementoDaVez : lista) {
+        for (T elementoDaVez : lista) {
 
             // leio o que já tenho até aqui
             int ocorrenciasAnterioresDoElemento =

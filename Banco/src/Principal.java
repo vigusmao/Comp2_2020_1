@@ -102,6 +102,8 @@ public class Principal {
                     Pessoa correntista = meuBanco.localizarCorrentista(cpf);
                     if (correntista != null) {
                         Conta novaConta = meuBanco.cadastrarConta(correntista);
+                        novaConta.setDiaDaSemanaParaSorteio(DiaDaSemana.QUARTA);
+                        System.out.println(novaConta.getDiaDaSemanaParaSorteio().getNomePorExtenso());
                         System.out.println("Conta criada com o número " + novaConta.getNumeroDaConta());
                     } else {
                         System.out.println("Correntista não existe!");
